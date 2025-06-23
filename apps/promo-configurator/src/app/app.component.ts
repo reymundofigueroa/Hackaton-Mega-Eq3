@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
-import { PromotionConfiguratorComponent } from './promotion-configurator/promotion-configurator.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [PromotionConfiguratorComponent],
-  template: `<app-configurador-promocion></app-configurador-promocion>`,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
-export class AppComponent {}
+export class AppComponent {
+  title ='Gestor de deuda'
+}
