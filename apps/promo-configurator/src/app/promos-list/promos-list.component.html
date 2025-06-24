@@ -1,1 +1,111 @@
-<p>promos-list works!</p>
+<Section class="main-section">
+  <header>
+    <div>
+      <nav></nav>
+    </div>
+
+    <div class="title-container">
+      <h1>Promociones disponibles</h1>
+    </div>
+  </header>
+
+  <section class="cards-section">
+    <div class="dropDownList-container">
+      <h2>Filtrar por:</h2>
+      <select name="servicios" id="servicios">
+        <option value="todos">Todos</option>
+        <option value="internet">Internet</option>
+        <option value="telefonia">Telefonía</option>
+        <option value="tv-cable">TV por Cable</option>
+      </select>
+    </div>
+
+     <article class="categoryCards-container">
+      <h3 class="category-title">Internet:</h3>
+      <div class="cards-container">
+        <div
+          class="card"
+          *ngFor="let card of cards"
+          tabindex="0"
+          (click)="openModal(card)"
+          (keyup)="
+            ($event.key === 'Enter' || $event.key === ' ') && openModal(card)
+          "
+          role="button"
+          aria-pressed="false"
+        >
+          <h3>{{ card.title }}</h3>
+          <h3>{{ card.type }}</h3>
+          <h3>{{ card.discount }}</h3>
+          <img src="./SVG/crear-promo.svg" alt="icono" />
+        </div>
+      </div>
+    </article>
+
+    <article class="categoryCards-container">
+      <h3 class="category-title">Telefonía:</h3>
+      <div class="cards-container">
+        <div
+          class="card"
+          *ngFor="let card of cards"
+          tabindex="0"
+          (click)="openModal(card)"
+          (keyup)="
+            ($event.key === 'Enter' || $event.key === ' ') && openModal(card)
+          "
+          role="button"
+          aria-pressed="false"
+        >
+          <h3>{{ card.title }}</h3>
+          <h3>{{ card.type }}</h3>
+          <h3>{{ card.discount }}</h3>
+          <img src="./SVG/crear-promo.svg" alt="icono" />
+        </div>
+      </div>
+    </article>
+
+  <article class="categoryCards-container">
+      <h3 class="category-title">TV Por cable:</h3>
+      <div class="cards-container">
+        <div
+          class="card"
+          *ngFor="let card of cards"
+          tabindex="0"
+          (click)="openModal(card)"
+          (keyup)="
+            ($event.key === 'Enter' || $event.key === ' ') && openModal(card)
+          "
+          role="button"
+          aria-pressed="false"
+        >
+          <h3>{{ card.title }}</h3>
+          <h3>{{ card.type }}</h3>
+          <h3>{{ card.discount }}</h3>
+          <img src="./SVG/crear-promo.svg" alt="icono" />
+        </div>
+      </div>
+    </article>
+  </section>
+  <div
+    class="modal-backdrop"
+    *ngIf="selectedCard"
+    (click)="closeModal()"
+    (keyup)="($event.key === 'Enter' || $event.key === ' ') && closeModal()"
+    tabindex="0"
+    role="button"
+    aria-label="Cerrar modal"
+  ></div>
+
+  <div class="modal" *ngIf="selectedCard">
+    <button class="close-btn" (click)="closeModal()">×</button>
+    <h2>{{ selectedCard.title }}</h2>
+    <p>Tipo: {{ selectedCard.type }}</p>
+    <p>Descuento: {{ selectedCard.discount }}</p>
+    <p>Aplica a: mensualidad</p>
+    <p>Aplica a los servicios:</p>
+    <ul>
+      <li>Internet</li>
+      <li>Telefonía</li>
+    </ul>
+  </div>
+</Section>
