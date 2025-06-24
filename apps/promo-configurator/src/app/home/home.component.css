@@ -1,0 +1,69 @@
+/* Estilos generales */
+.main-section {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  background-color: #191C27;
+  height: 100vh;
+}
+
+/* Sección del banner */
+
+.banner-section {
+  width: 600px;
+  height: 100%;
+  margin: 0;
+}
+
+.banner-section figure img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+}
+
+/* Sección de botones de navegación */
+
+.button-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 2.5rem;
+  height: 100%;
+  width: 60%;
+  padding: 6rem;
+  box-sizing: border-box;
+}
+
+.card {
+  flex: 0 1 32%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card button {
+  padding: 1.5rem 2rem;
+  font-size: 1.6rem;
+  border: none;
+  border-radius: 0.8rem;
+  background-color: #005BAC;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 250px;
+  height: 120px;
+}
+
+.card img {
+  width: 35px;
+  height: 35px;
+  margin: 0 0 8px 0;
+}
+
+.card button:hover {
+  background-color: #004080;
+}

@@ -18,11 +18,11 @@ export class HomeComponent {
     this.router.navigate(['/lista-de-promos']);
   }
 
-  goToAssignPromo(){
+  goToAssignPromo() {
     this.router.navigate(['/asignar-promoción'])
   }
 
-  goToDebtCalculator(){
+  goToDebtCalculator() {
     this.router.navigate(['/cálculo-de-deuda'])
   }
 }

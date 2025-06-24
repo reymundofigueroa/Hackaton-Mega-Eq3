@@ -1,6 +1,37 @@
-<p>home works!</p>
+<Section class="main-section">
+  <section class="banner-section">
+    <figure>
+      <img
+        src="./images/banner.png"
+        alt="Imagen de un banner de promoción a Mega"
+      />
+    </figure>
+  </section>
 
-<button (click)="goToCreatePromo()">ir a crear promoción</button>
-<button (click)="goToPromosList()">Ver promociones creadas</button>
-<button (click)="goToAssignPromo()"> Asignar promoción</button>
-<button (click)="goToDebtCalculator()">Cálculo de deuda</button>
+  <div class="button-wrapper">
+    <div class="card">
+      <button (click)="goToCreatePromo()">
+        <img src="./SVG/crear-promo.svg" alt="" /><br />
+        Crear promoción
+      </button>
+    </div>
+    <div class="card">
+      <button (click)="goToPromosList()">
+        <img src="./SVG/lista-de-promos.svg" alt="" /><br />
+        Ver promociones creadas
+      </button>
+    </div>
+    <div class="card">
+      <button (click)="goToAssignPromo()">
+        <img src="./SVG/asignar-promo.svg" alt="" /><br />
+        Asignar promoción
+      </button>
+    </div>
+    <div class="card">
+      <button (click)="goToDebtCalculator()">
+        <img src="./SVG/calculo-de-deuda.svg" alt="" /><br />
+        Cálculo de deuda
+      </button>
+    </div>
+  </div>
+</Section>
