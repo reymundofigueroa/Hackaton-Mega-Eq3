@@ -1,4 +1,19 @@
+using API_promo_configurator.Data;
+using API_promo_configurator.Repository;
+using API_promo_configurator.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Configurar la conexion a la BD (DBContext)
+var dbConnectionString = builder.Configuration.GetConnectionString("ConexionSql");
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
+
+// Inyección de dependencias
+builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
+
+// Solo se agrega una vez
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Add services to the container.
 

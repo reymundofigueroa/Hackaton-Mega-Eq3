@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("API-promo-configurator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80be64fa3e5fc3ec32964760c90fbb72036b1741")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c4cc12ee9755d20b1faba00dc98dc424712083f5")]
 [assembly: System.Reflection.AssemblyProductAttribute("API-promo-configurator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API-promo-configurator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
