@@ -13,9 +13,9 @@ interface Promocion {
   montoDescuento: number;
   aplicaMensualidad: boolean;
   aplicaInstalacion: boolean;
-  ciudades: string[];        // múltiples ciudades
-  colonias: string[];        // múltiples colonias
-  paquetes: string[];        // múltiples paquetes (ids)
+  ciudades: string[];        
+  colonias: string[];        
+  paquetes: string[];
   fechaInicio: string;
   fechaFin: string;
   activa: boolean;
@@ -70,7 +70,7 @@ export class PromotionConfiguratorComponent {
       colonias.forEach(colonia => conjuntoColonias.add(colonia));
     });
     this.opcionesColonias = Array.from(conjuntoColonias);
-    // Opcional: Limpiar colonias seleccionadas que ya no estén en opciones
+    //Limpiar colonias seleccionadas que ya no estén en opciones
     this.promocion.colonias = this.promocion.colonias.filter(c => this.opcionesColonias.includes(c));
   }
 
