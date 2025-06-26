@@ -6,7 +6,6 @@ obj/
 /apps/API-promo-configurator/bin/
 /apps/API-promo-configurator/obj/
 
-
 ## User-specific files
 *.user
 *.suo
