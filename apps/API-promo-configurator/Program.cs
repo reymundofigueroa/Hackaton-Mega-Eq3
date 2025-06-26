@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configurar la conexion a la BD (DBContext)
-var dbConnectionString = builder.Configuration.GetConnectionString("ConexionSql");
+var activeConn = builder.Configuration["ActiveConnection"]!;
+var dbConnectionString = builder.Configuration.GetConnectionString(activeConn)!;
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
 
 // Inyección de dependencias

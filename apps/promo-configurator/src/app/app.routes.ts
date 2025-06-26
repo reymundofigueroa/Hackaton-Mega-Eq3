@@ -6,8 +6,8 @@ export const routes: Routes = [
       .then(m => m.HomeComponent)
   },
   {
-    path: 'crear-promo', loadComponent: () => import('./promotion-configurator/promotion-configurator.component')
-      .then(m => m.PromotionConfiguratorComponent)
+    path: 'crear-promo', loadComponent: () => import('./creador-promociones/creador-promociones.component')
+      .then(m => m.CreadorPromocionesComponent)
   },
   {
     path: 'lista-de-promos', loadComponent: () => import('./promos-list/promos-list.component')

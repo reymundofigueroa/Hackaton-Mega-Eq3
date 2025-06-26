@@ -1,0 +1,108 @@
+<div class="contenedor">
+    <div class="izquierda-centro">
+        <div class="filas-arriba">
+            <div class="col izquierda">
+                <div class="card">
+                    <div class="form-group">
+                        <label>Nombre de promoción</label>
+                        <input type="text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo de descuento</label>
+                        <select [(ngModel)]="tipoDescuento">
+                            <option value="monto">Monto fijo</option>
+                            <option value="porcentaje">Porcentaje</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            {{ tipoDescuento === 'porcentaje' ? 'Porcentaje de descuento (%)' : 'Monto de descuento ($)'
+                            }}
+                        </label>
+                        <input type="number" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col centro">
+                <div class="card">
+                    <label><input type="checkbox" /> Aplica mensualidad</label>
+                    <label><input type="checkbox" /> Aplica instalación</label>
+                </div>
+
+                <div class="card">
+                    <p><strong>Servicios</strong></p>
+                    <label><input type="checkbox" /> TV</label>
+                    <label><input type="checkbox" /> Internet</label>
+                    <label><input type="checkbox" /> Telefonía</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="fila-fechas">
+            <div class="card-horizontal">
+                <div class="form-group">
+                    <label>Fecha inicio</label>
+                    <input type="date" />
+                </div>
+                <div class="form-group">
+                    <label>Fecha fin</label>
+                    <input type="date" />
+                </div>
+                <div class="form-group">
+                    <label>Duración (meses)</label>
+                    <select>
+                        <option *ngFor="let n of duracionMeses" [value]="n">{{ n }} mes(es)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="guardar-boton">
+                <button class="boton">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col derecha">
+        <div class="card-lista ubicacion-card">
+            <h3>Ubicación</h3>
+            <div class="ubicacion-grid">
+                <div class="ubicacion-col">
+                    <h4>Ciudades</h4>
+                    <ul>
+                        <li *ngFor="let ciudad of ciudades" (click)="seleccionarCiudad(ciudad)"
+                            [class.seleccionado]="ciudad === ciudadSeleccionada">
+                            {{ ciudad.nombre }}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="ubicacion-col">
+                    <h4>Colonias</h4>
+                    <ul *ngIf="ciudadSeleccionada; else mensajeColonias">
+                        <li *ngFor="let colonia of ciudadSeleccionada.colonias" (click)="seleccionarColonia(colonia)"
+                            [class.seleccionado]="colonia === coloniaSeleccionada">
+                            {{ colonia.nombre }}
+                        </li>
+                    </ul>
+                    <ng-template #mensajeColonias>
+                        <p style="color: #888;">Selecciona una ciudad</p>
+                    </ng-template>
+                </div>
+
+                <div class="ubicacion-col">
+                    <h4>Sucursales</h4>
+                    <ul *ngIf="coloniaSeleccionada; else mensajeSucursales">
+                        <li *ngFor="let sucursal of coloniaSeleccionada.sucursales">
+                            {{ sucursal.nombre }}
+                        </li>
+                    </ul>
+                    <ng-template #mensajeSucursales>
+                        <p style="color: #888;">Selecciona una colonia</p>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
