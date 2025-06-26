@@ -5190,23 +5190,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\antho\\.nuget\\packages\\": {},
+    "C:\\Users\\reymu\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\xampp\\htdocs\\DesarrolloWeb\\Liderly_Hackaton\\Hackaton-Mega-Eq3\\apps\\API-promo-configurator\\API-promo-configurator.csproj",
+      "projectUniqueName": "C:\\Users\\reymu\\OneDrive\\Documents\\liderly\\proyectos\\Hackaton-Mega-Eq3\\apps\\API-promo-configurator\\API-promo-configurator.csproj",
       "projectName": "API-promo-configurator",
-      "projectPath": "C:\\xampp\\htdocs\\DesarrolloWeb\\Liderly_Hackaton\\Hackaton-Mega-Eq3\\apps\\API-promo-configurator\\API-promo-configurator.csproj",
-      "packagesPath": "C:\\Users\\antho\\.nuget\\packages\\",
-      "outputPath": "C:\\xampp\\htdocs\\DesarrolloWeb\\Liderly_Hackaton\\Hackaton-Mega-Eq3\\apps\\API-promo-configurator\\obj\\",
+      "projectPath": "C:\\Users\\reymu\\OneDrive\\Documents\\liderly\\proyectos\\Hackaton-Mega-Eq3\\apps\\API-promo-configurator\\API-promo-configurator.csproj",
+      "packagesPath": "C:\\Users\\reymu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\reymu\\OneDrive\\Documents\\liderly\\proyectos\\Hackaton-Mega-Eq3\\apps\\API-promo-configurator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\antho\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\reymu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -5215,7 +5215,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -5284,7 +5283,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
