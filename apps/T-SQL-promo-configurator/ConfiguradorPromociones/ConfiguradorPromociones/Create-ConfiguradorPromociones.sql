@@ -1,12 +1,11 @@
 /****************************************************************************************
 * SCRIPT DE CONFIGURACIÓN DE BASE DE DATOS "ConfiguradorPromociones"                    *
-* VERSIÓN 2.0                                                                           *
+* VERSIÓN 3.0                                                                           *
 *																						*
 * Propósito: Crea o reinicia completamente la base de datos y el esquema.               *
-* Cambios v2.0:                                                                         *
-* - Añadida validación para campo 'aplica_a' en Promociones.							*
-* - Añadido campo 'duracion_meses' en Promociones.										*
-* - Creada tabla 'Promocion_Alcance' para definir el alcance geográfico.				*
+* Cambios v3.0:                                                                         *
+* * - Creada tabla intermedia 'Promocion_Servicio' para vincular promociones a uno o    *
+*	  más servicios específicos.														*
 *																						*
 * ¡ADVERTENCIA! Si la base de datos ya existe, este script la eliminará por				*
 * completo (incluyendo todos sus datos) y la volverá a crear desde cero.				*
@@ -43,7 +42,8 @@ BEGIN TRY
     IF OBJECT_ID('dbo.Contrato_Promociones', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Contrato_Promociones; PRINT '-> Tabla "Contrato_Promociones" eliminada.'; END
     IF OBJECT_ID('dbo.Contrato_Servicios', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Contrato_Servicios; PRINT '-> Tabla "Contrato_Servicios" eliminada.'; END
     IF OBJECT_ID('dbo.Sucursal_Colonia', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Sucursal_Colonia; PRINT '-> Tabla "Sucursal_Colonia" eliminada.'; END
-    IF OBJECT_ID('dbo.Promocion_Alcance', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Promocion_Alcance; PRINT '-> Tabla "Promocion_Alcance" eliminada.'; END -- Nueva tabla
+    IF OBJECT_ID('dbo.Promocion_Alcance', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Promocion_Alcance; PRINT '-> Tabla "Promocion_Alcance" eliminada.'; END
+	IF OBJECT_ID('dbo.Promocion_Servicio', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Promocion_Servicio; PRINT '-> Tabla "Promocion_Servicio" eliminada.'; END -- Nueva tabla
     IF OBJECT_ID('dbo.Contratos', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Contratos; PRINT '-> Tabla "Contratos" eliminada.'; END
     IF OBJECT_ID('dbo.Suscriptores', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Suscriptores; PRINT '-> Tabla "Suscriptores" eliminada.'; END
     IF OBJECT_ID('dbo.Sucursales', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Sucursales; PRINT '-> Tabla "Sucursales" eliminada.'; END
@@ -146,6 +146,16 @@ BEGIN TRY
 	);
     PRINT '-> Tablas de Entidades Principales creadas.';
 
+	-- NUEVA TABLA para vincular promociones a servicios
+    CREATE TABLE Promocion_Servicio (
+        id_promocion INT NOT NULL,
+        id_servicio INT NOT NULL,
+        PRIMARY KEY (id_promocion, id_servicio), -- Llave primaria compuesta
+        CONSTRAINT FK_PromocionServicio_Promociones FOREIGN KEY (id_promocion) REFERENCES Promociones(id_promocion) ON DELETE CASCADE,
+        CONSTRAINT FK_PromocionServicio_Servicios FOREIGN KEY (id_servicio) REFERENCES Servicios(id_servicio) ON DELETE CASCADE
+    );
+    PRINT '-> Tabla "Promocion_Servicio" creada.';
+
     -- Tablas de Relación y Transacciones
     CREATE TABLE Contratos (
 		id_contrato INT PRIMARY KEY IDENTITY(1,1), 
@@ -166,7 +176,7 @@ BEGIN TRY
 		CONSTRAINT FK_SucursalColonia_Colonias FOREIGN KEY (id_colonia) REFERENCES Colonias(id_colonia)
 	);
     
-    -- NUEVA TABLA para el alcance geográfico de las promociones
+    -- TABLA para el alcance geográfico de las promociones
     CREATE TABLE Promocion_Alcance (
         id_promocion_alcance INT PRIMARY KEY IDENTITY(1,1),
         id_promocion INT NOT NULL,
