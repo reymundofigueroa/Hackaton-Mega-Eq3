@@ -13,6 +13,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 
 // Inyección de dependencias
 builder.Services.AddScoped<IServicioRepository, ServicioRepository>();
+builder.Services.AddScoped<IPromocionRepository, PromocionRepository>();
+builder.Services.AddScoped<IContratoRepository, ContratoRepository>();
+builder.Services.AddScoped<IContratoServicioRepository, ContratoServicioRepository>();
+builder.Services.AddScoped<IContratoPromocionRepository, ContratoPromocionRepository>();
+builder.Services.AddScoped<IMovimientosCuentaRepository, MovimientosCuentaRepository>();
+builder.Services.AddScoped<ISuscriptorRepository, SuscriptorRepository>();
+builder.Services.AddScoped<IDomicilioRepository, DomicilioRepository>();
+builder.Services.AddScoped<ISucursalRepository, SucursalRepository>();
+builder.Services.AddScoped<IColoniaRepository, ColoniaRepository>();
+builder.Services.AddScoped<ICiudadRepository, CiudadRepository>();
+builder.Services.AddScoped<IMunicipioRepository, MunicipioRepository>();
+builder.Services.AddScoped<IEstadoRepository, EstadoRepository>();
+builder.Services.AddScoped<IPromocionAlcanceRepository, PromocionAlcanceRepository>();
 
 // Solo se agrega una vez
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
