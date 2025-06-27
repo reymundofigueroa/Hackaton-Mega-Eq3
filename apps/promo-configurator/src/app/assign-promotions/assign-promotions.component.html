@@ -13,19 +13,25 @@
     <article>
       <h2>Clientes</h2>
       <div class="card">
-          <div class="search-container">
+        <div class="search-container">
           <input type="search" placeholder="🔍 Buscar" />
-           <button>Vamos</button>
+          <button>Vamos</button>
           <!-- <span class="loading">Buscando...</span> !-->
         </div>
 
         <div class="scroll-bar">
           <ul>
-            <li>
-              Cliente 1
-            </li>
-            <li>
-              Cliente 2
+            <li
+              *ngFor="let client of clients"
+              tabindex="0"
+              (click)="selectClient(client)"
+              (keyup)="
+                ($event.key === 'Enter' || $event.key === ' ') &&
+                  selectClient(client)
+              "
+              [class.selected]="client === clientSelected"
+            >
+              Contrato: {{ client.idContrato }} {{ client.nombreCliente }}
             </li>
           </ul>
         </div>
@@ -37,21 +43,32 @@
       <div class="card">
         <div class="search-container">
           <input type="search" placeholder="🔍 Buscar" />
-           <button>Vamos</button>
+          <button>Vamos</button>
           <!-- <span class="loading">Buscando...</span> !-->
         </div>
 
         <div class="scroll-bar">
-          <ul>
-            <li>
-              Promo 1
-            </li>
-            <li>
-              Promo 2
+          <ul id="lista-promos">
+            <li
+              *ngFor="let promo of promotions"
+              tabindex="0"
+              (click)="selectPromo(promo)"
+              (keyup)="
+                ($event.key === 'Enter' || $event.key === ' ') &&
+                  selectPromo(promo)
+              "
+              [class.selected]="promo === promoSelected"
+            >
+              Contrato: {{ promo.idPromocion }} {{ promo.nombreDePromo }}
             </li>
           </ul>
         </div>
       </div>
     </article>
   </section>
+
+  <div class="submitButton-container">
+    <button>Asignar</button>
+  </div>
+
 </section>

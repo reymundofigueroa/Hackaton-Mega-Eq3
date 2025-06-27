@@ -51,7 +51,7 @@ header .title-container {
   height: 100%;
   padding: 2rem;
   border-radius: 5%;
-  font-size: 2rem;
+  font-size: 1.6rem;
   background-color: #3A3A3A;
 }
 
@@ -93,9 +93,50 @@ header .title-container {
   align-items: center;
   width: 70%;
   height: 80%;
+  max-height: 40rem;
   margin-top: 2rem;
   padding: 2rem;
   border-radius: 5%;
   background-color: #2F2F2F;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-bar li{
+  margin: 1.2rem 0;
+}
+
+li {
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+li.selected {
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+}
+
+/* Estilos botón asignar */
+
+.submitButton-container{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.submitButton-container button{
+  width: 28rem;
+  height: 6rem;
+  font-size: 1.6rem;
+  border: none;
+  border-radius: 80px;
+  color: aliceblue;
+  background-color: #005BAC;
+}
+
+.submitButton-container button:hover{
+  background-color: #004080;
 }
