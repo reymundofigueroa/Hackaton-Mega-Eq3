@@ -1,1 +1,70 @@
-<p>assign-promotions works!</p>
+<section class="main-section">
+  <header>
+    <div>
+      <nav></nav>
+    </div>
+
+    <div class="title-container">
+      <h1>Asignar promociones</h1>
+    </div>
+  </header>
+
+  <section class="cards-container">
+    <article>
+      <h2>Clientes</h2>
+      <div class="card">
+        <div class="search-container">
+          <input
+            type="search"
+            [(ngModel)]="clienteSearch"
+            placeholder="🔍 Buscar cliente"
+          />
+          <button>Vamos</button>
+          <!-- <span class="loading">Buscando...</span> !-->
+        </div>
+
+        <div class="scroll-bar">
+          <ul>
+  <li *ngFor="let client of clientesFiltrados"
+      (click)="selectClient(client)"
+      (keyup.enter)="selectClient(client)"
+      tabindex="0"
+      [class.selected]="client === clientSelected">
+    Contrato: {{ client.idContrato }} {{ client.nombreCliente }}
+  </li>
+</ul>
+        </div>
+      </div>
+    </article>
+
+    <article>
+      <h2>Promociones</h2>
+      <div class="card">
+        <div class="search-container">
+           <input
+    type="search"
+    [(ngModel)]="promoSearch"
+    placeholder="🔍 Buscar promoción" />
+          <button>Vamos</button>
+          <!-- <span class="loading">Buscando...</span> !-->
+        </div>
+
+        <div class="scroll-bar">
+          <ul>
+  <li *ngFor="let promo of promocionesFiltradas"
+      (click)="selectPromo(promo)"
+      (keyup.enter)="selectPromo(promo)"
+      tabindex="0"
+      [class.selected]="promo === promoSelected">
+      {{promo.idPromocion}} {{ promo.nombreDePromo }}
+  </li>
+</ul>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <div class="submitButton-container">
+    <button>Asignar</button>
+  </div>
+</section>
