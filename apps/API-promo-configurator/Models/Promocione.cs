@@ -26,4 +26,6 @@ public partial class Promocione
     public virtual ICollection<ContratoPromocione> ContratoPromociones { get; set; } = new List<ContratoPromocione>();
 
     public virtual ICollection<PromocionAlcance> PromocionAlcances { get; set; } = new List<PromocionAlcance>();
+
+    public virtual ICollection<Servicio> IdServicios { get; set; } = new List<Servicio>();
 }

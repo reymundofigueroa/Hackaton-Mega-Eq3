@@ -16,4 +16,6 @@ public partial class Servicio
     public bool Activo { get; set; }
 
     public virtual ICollection<ContratoServicio> ContratoServicios { get; set; } = new List<ContratoServicio>();
+
+    public virtual ICollection<Promocione> IdPromocions { get; set; } = new List<Promocione>();
 }

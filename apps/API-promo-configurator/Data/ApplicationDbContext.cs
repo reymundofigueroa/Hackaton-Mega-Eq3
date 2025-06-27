@@ -16,7 +16,6 @@ public partial class ApplicationDbContext : DbContext
     {
     }
 
-    // Representación de las tablas de la BD
     public virtual DbSet<Ciudade> Ciudades { get; set; }
 
     public virtual DbSet<Colonia> Colonias { get; set; }
@@ -45,16 +44,14 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Suscriptore> Suscriptores { get; set; }
 
-    /*
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=ConnectionStrings:ConexionSql");
-    */
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Ciudade>(entity =>
         {
-            entity.HasKey(e => e.IdCiudad).HasName("PK__Ciudades__B7DC4CD581483EB7");
+            entity.HasKey(e => e.IdCiudad).HasName("PK__Ciudades__B7DC4CD54F10A3BF");
 
             entity.Property(e => e.IdCiudad).HasColumnName("id_ciudad");
             entity.Property(e => e.IdMunicipio).HasColumnName("id_municipio");
@@ -70,7 +67,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Colonia>(entity =>
         {
-            entity.HasKey(e => e.IdColonia).HasName("PK__Colonias__E267D3BA73F15BC0");
+            entity.HasKey(e => e.IdColonia).HasName("PK__Colonias__E267D3BA33D918F9");
 
             entity.Property(e => e.IdColonia).HasColumnName("id_colonia");
             entity.Property(e => e.CodigoPostal)
@@ -90,7 +87,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Contrato>(entity =>
         {
-            entity.HasKey(e => e.IdContrato).HasName("PK__Contrato__FF5F2A5625CD6B92");
+            entity.HasKey(e => e.IdContrato).HasName("PK__Contrato__FF5F2A5620ED58FC");
 
             entity.HasIndex(e => e.IdSuscriptor, "IX_Contratos_IdSuscriptor");
 
@@ -118,7 +115,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<ContratoPromocione>(entity =>
         {
-            entity.HasKey(e => e.IdContratoPromocion).HasName("PK__Contrato__9740535EF6EC48E7");
+            entity.HasKey(e => e.IdContratoPromocion).HasName("PK__Contrato__9740535EB180635A");
 
             entity.ToTable("Contrato_Promociones");
 
@@ -143,13 +140,13 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<ContratoServicio>(entity =>
         {
-            entity.HasKey(e => e.IdContratoServicio).HasName("PK__Contrato__53A2E8F95F7012EC");
+            entity.HasKey(e => e.IdContratoServicio).HasName("PK__Contrato__53A2E8F9BDE44B3F");
 
             entity.ToTable("Contrato_Servicios");
 
             entity.HasIndex(e => e.IdContrato, "IX_ContratoServicios_IdContrato");
 
-            entity.HasIndex(e => new { e.IdContrato, e.IdServicio }, "UQ__Contrato__29A22DAAB644108B").IsUnique();
+            entity.HasIndex(e => new { e.IdContrato, e.IdServicio }, "UQ__Contrato__29A22DAA1D47DD9C").IsUnique();
 
             entity.Property(e => e.IdContratoServicio).HasColumnName("id_contrato_servicio");
             entity.Property(e => e.FechaAlta)
@@ -174,7 +171,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Domicilio>(entity =>
         {
-            entity.HasKey(e => e.IdDomicilio).HasName("PK__Domicili__A0CCE5C22844C803");
+            entity.HasKey(e => e.IdDomicilio).HasName("PK__Domicili__A0CCE5C2DAA2FB11");
 
             entity.Property(e => e.IdDomicilio).HasColumnName("id_domicilio");
             entity.Property(e => e.Calle)
@@ -199,9 +196,9 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Estado>(entity =>
         {
-            entity.HasKey(e => e.IdEstado).HasName("PK__Estados__86989FB20545DBA8");
+            entity.HasKey(e => e.IdEstado).HasName("PK__Estados__86989FB25C6726AF");
 
-            entity.HasIndex(e => e.Nombre, "UQ__Estados__72AFBCC6A4FD960D").IsUnique();
+            entity.HasIndex(e => e.Nombre, "UQ__Estados__72AFBCC6FDA2CB49").IsUnique();
 
             entity.Property(e => e.IdEstado).HasColumnName("id_estado");
             entity.Property(e => e.Nombre)
@@ -211,7 +208,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<MovimientosCuentum>(entity =>
         {
-            entity.HasKey(e => e.IdMovimiento).HasName("PK__Movimien__2A071C24646A66E5");
+            entity.HasKey(e => e.IdMovimiento).HasName("PK__Movimien__2A071C2483EDE900");
 
             entity.ToTable("Movimientos_Cuenta");
 
@@ -244,7 +241,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Municipio>(entity =>
         {
-            entity.HasKey(e => e.IdMunicipio).HasName("PK__Municipi__01C9EB999A4F7E62");
+            entity.HasKey(e => e.IdMunicipio).HasName("PK__Municipi__01C9EB9915889AA0");
 
             entity.Property(e => e.IdMunicipio).HasColumnName("id_municipio");
             entity.Property(e => e.IdEstado).HasColumnName("id_estado");
@@ -260,7 +257,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<PromocionAlcance>(entity =>
         {
-            entity.HasKey(e => e.IdPromocionAlcance).HasName("PK__Promocio__777E93A2540CB67E");
+            entity.HasKey(e => e.IdPromocionAlcance).HasName("PK__Promocio__777E93A2F228E681");
 
             entity.ToTable("Promocion_Alcance");
 
@@ -301,7 +298,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Promocione>(entity =>
         {
-            entity.HasKey(e => e.IdPromocion).HasName("PK__Promocio__F89308E05CC785C2");
+            entity.HasKey(e => e.IdPromocion).HasName("PK__Promocio__F89308E0DF45E5D7");
 
             entity.Property(e => e.IdPromocion).HasColumnName("id_promocion");
             entity.Property(e => e.AplicaA)
@@ -326,11 +323,28 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.ValorDescuento)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("valor_descuento");
+
+            entity.HasMany(d => d.IdServicios).WithMany(p => p.IdPromocions)
+                .UsingEntity<Dictionary<string, object>>(
+                    "PromocionServicio",
+                    r => r.HasOne<Servicio>().WithMany()
+                        .HasForeignKey("IdServicio")
+                        .HasConstraintName("FK_PromocionServicio_Servicios"),
+                    l => l.HasOne<Promocione>().WithMany()
+                        .HasForeignKey("IdPromocion")
+                        .HasConstraintName("FK_PromocionServicio_Promociones"),
+                    j =>
+                    {
+                        j.HasKey("IdPromocion", "IdServicio").HasName("PK__Promocio__2E6E0F1D86737907");
+                        j.ToTable("Promocion_Servicio");
+                        j.IndexerProperty<int>("IdPromocion").HasColumnName("id_promocion");
+                        j.IndexerProperty<int>("IdServicio").HasColumnName("id_servicio");
+                    });
         });
 
         modelBuilder.Entity<Servicio>(entity =>
         {
-            entity.HasKey(e => e.IdServicio).HasName("PK__Servicio__6FD07FDC1A50DCCE");
+            entity.HasKey(e => e.IdServicio).HasName("PK__Servicio__6FD07FDC537543F5");
 
             entity.Property(e => e.IdServicio).HasColumnName("id_servicio");
             entity.Property(e => e.Activo)
@@ -349,9 +363,9 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Sucursale>(entity =>
         {
-            entity.HasKey(e => e.IdSucursal).HasName("PK__Sucursal__4C7580134E72F68E");
+            entity.HasKey(e => e.IdSucursal).HasName("PK__Sucursal__4C758013D1AA07CD");
 
-            entity.HasIndex(e => e.Nombre, "UQ__Sucursal__72AFBCC657624569").IsUnique();
+            entity.HasIndex(e => e.Nombre, "UQ__Sucursal__72AFBCC66DDA1C7D").IsUnique();
 
             entity.Property(e => e.IdSucursal).HasColumnName("id_sucursal");
             entity.Property(e => e.IdDomicilio).HasColumnName("id_domicilio");
@@ -381,7 +395,7 @@ public partial class ApplicationDbContext : DbContext
                         .HasConstraintName("FK_SucursalColonia_Sucursales"),
                     j =>
                     {
-                        j.HasKey("IdSucursal", "IdColonia").HasName("PK__Sucursal__F253FD28FCCB609A");
+                        j.HasKey("IdSucursal", "IdColonia").HasName("PK__Sucursal__F253FD28CA01B7F7");
                         j.ToTable("Sucursal_Colonia");
                         j.IndexerProperty<int>("IdSucursal").HasColumnName("id_sucursal");
                         j.IndexerProperty<int>("IdColonia").HasColumnName("id_colonia");
@@ -390,11 +404,11 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Suscriptore>(entity =>
         {
-            entity.HasKey(e => e.IdSuscriptor).HasName("PK__Suscript__DD03358FB94C6353");
+            entity.HasKey(e => e.IdSuscriptor).HasName("PK__Suscript__DD03358F7650BD7F");
 
-            entity.HasIndex(e => e.Email, "UQ__Suscript__AB6E6164244A4B3C").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Suscript__AB6E616416CE10D0").IsUnique();
 
-            entity.HasIndex(e => e.Rfc, "UQ__Suscript__C2B03494F023B61C").IsUnique();
+            entity.HasIndex(e => e.Rfc, "UQ__Suscript__C2B034949CFD4F79").IsUnique();
 
             entity.Property(e => e.IdSuscriptor).HasColumnName("id_suscriptor");
             entity.Property(e => e.ApellidoMaterno)
