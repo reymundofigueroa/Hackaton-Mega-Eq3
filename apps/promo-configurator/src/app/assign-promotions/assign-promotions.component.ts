@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-assign-promotions',
   imports: [CommonModule, FormsModule],
@@ -17,9 +18,6 @@ export class AssignPromotionsComponent {
     { idContrato: 1, nombreCliente: 'Carlos Pérez', idSucursal: 101 },
     { idContrato: 2, nombreCliente: 'Ana Gómez', idSucursal: 102 },
     { idContrato: 3, nombreCliente: 'Luis Martínez', idSucursal: 101 },
-    { idContrato: 1, nombreCliente: 'Carlos Pérez', idSucursal: 101 },
-    { idContrato: 2, nombreCliente: 'Ana Gómez', idSucursal: 102 },
-    { idContrato: 3, nombreCliente: 'Luis Martínez', idSucursal: 101 },
     { idContrato: 4, nombreCliente: 'María Fernández', idSucursal: 103 },
     { idContrato: 5, nombreCliente: 'Pedro Ramírez', idSucursal: 102 },
     { idContrato: 6, nombreCliente: 'Laura Salazar', idSucursal: 101 },
@@ -28,11 +26,9 @@ export class AssignPromotionsComponent {
     { idContrato: 9, nombreCliente: 'Ricardo Ortega', idSucursal: 102 },
     { idContrato: 10, nombreCliente: 'Valeria Cruz', idSucursal: 101 },
   ];
+  clientsToShow = []
 
   promotions = [
-    { idPromocion: 201, nombreDePromo: 'Descuento 2x1', idSucursal: 101 },
-    { idPromocion: 202, nombreDePromo: '25% Off', idSucursal: 102 },
-    { idPromocion: 203, nombreDePromo: 'Instalación Gratis', idSucursal: 101 },
     { idPromocion: 201, nombreDePromo: 'Descuento 2x1', idSucursal: 101 },
     { idPromocion: 202, nombreDePromo: '25% Off', idSucursal: 102 },
     { idPromocion: 203, nombreDePromo: 'Envío Gratis', idSucursal: 101 },
@@ -46,29 +42,32 @@ export class AssignPromotionsComponent {
   ];
 
   get clientesFiltrados() {
-  return this.clients.filter(cliente =>
-    cliente.nombreCliente.toLowerCase().includes(this.clienteSearch.toLowerCase())
-  );
-}
+    return this.clients.filter(cliente =>
+      cliente.nombreCliente.toLowerCase().includes(this.clienteSearch.toLowerCase()) ||
+       cliente.idContrato.toString().includes(this.clienteSearch)
+    );
+  }
 
-get promocionesFiltradas() {
-  return this.promotions.filter(promo =>
-    promo.nombreDePromo.toLowerCase().includes(this.promoSearch.toLowerCase())
-  );
-}
+  get promocionesFiltradas() {
+    return this.promotions.filter(promo =>
+      promo.nombreDePromo.toLowerCase().includes(this.promoSearch.toLowerCase()) ||
+             promo.idPromocion.toString().includes(this.promoSearch)
+
+    );
+  }
 
   selectClient(client: any) {
     if (this.clientSelected === client) {
       this.clientSelected = null;
     } else {
-      this.clientSelected = client;
+      this.clientSelected = this.clientSelected === client ? null : client;
     }
   }
   selectPromo(promo: any) {
     if (this.promoSelected === promo) {
       this.promoSelected = null;
     } else {
-      this.promoSelected = promo;
+        this.promoSelected = this.promoSelected === promo ? null : promo;
     }
   }
 }

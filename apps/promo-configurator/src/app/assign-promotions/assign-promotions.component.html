@@ -14,26 +14,25 @@
       <h2>Clientes</h2>
       <div class="card">
         <div class="search-container">
-          <input type="search" placeholder="🔍 Buscar" />
+          <input
+            type="search"
+            [(ngModel)]="clienteSearch"
+            placeholder="🔍 Buscar cliente"
+          />
           <button>Vamos</button>
           <!-- <span class="loading">Buscando...</span> !-->
         </div>
 
         <div class="scroll-bar">
           <ul>
-            <li
-              *ngFor="let client of clients"
-              tabindex="0"
-              (click)="selectClient(client)"
-              (keyup)="
-                ($event.key === 'Enter' || $event.key === ' ') &&
-                  selectClient(client)
-              "
-              [class.selected]="client === clientSelected"
-            >
-              Contrato: {{ client.idContrato }} {{ client.nombreCliente }}
-            </li>
-          </ul>
+  <li *ngFor="let client of clientesFiltrados"
+      (click)="selectClient(client)"
+      (keyup.enter)="selectClient(client)"
+      tabindex="0"
+      [class.selected]="client === clientSelected">
+    Contrato: {{ client.idContrato }} {{ client.nombreCliente }}
+  </li>
+</ul>
         </div>
       </div>
     </article>
@@ -42,26 +41,24 @@
       <h2>Promociones</h2>
       <div class="card">
         <div class="search-container">
-          <input type="search" placeholder="🔍 Buscar" />
+           <input
+    type="search"
+    [(ngModel)]="promoSearch"
+    placeholder="🔍 Buscar promoción" />
           <button>Vamos</button>
           <!-- <span class="loading">Buscando...</span> !-->
         </div>
 
         <div class="scroll-bar">
-          <ul id="lista-promos">
-            <li
-              *ngFor="let promo of promotions"
-              tabindex="0"
-              (click)="selectPromo(promo)"
-              (keyup)="
-                ($event.key === 'Enter' || $event.key === ' ') &&
-                  selectPromo(promo)
-              "
-              [class.selected]="promo === promoSelected"
-            >
-              Contrato: {{ promo.idPromocion }} {{ promo.nombreDePromo }}
-            </li>
-          </ul>
+          <ul>
+  <li *ngFor="let promo of promocionesFiltradas"
+      (click)="selectPromo(promo)"
+      (keyup.enter)="selectPromo(promo)"
+      tabindex="0"
+      [class.selected]="promo === promoSelected">
+      {{promo.idPromocion}} {{ promo.nombreDePromo }}
+  </li>
+</ul>
         </div>
       </div>
     </article>
@@ -70,5 +67,4 @@
   <div class="submitButton-container">
     <button>Asignar</button>
   </div>
-
 </section>
