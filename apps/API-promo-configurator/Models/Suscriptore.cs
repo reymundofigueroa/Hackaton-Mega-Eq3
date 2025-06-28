@@ -46,7 +46,7 @@ public partial class Suscriptore
     [Column("id_domicilio")]
     public int IdDomicilio { get; set; }
 
-    [InverseProperty("IdSuscriptorNavigation")]
+    [InverseProperty("Suscriptore")]
     public virtual ICollection<Contrato> Contratos { get; set; } = new List<Contrato>();
 
     [ForeignKey("IdDomicilio")]

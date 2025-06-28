@@ -77,7 +77,7 @@ public partial class ApplicationDbContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Contratos_Sucursales");
 
-            entity.HasOne(d => d.IdSuscriptorNavigation).WithMany(p => p.Contratos)
+            entity.HasOne(d => d.Suscriptore).WithMany(p => p.Contratos)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Contratos_Suscriptores");
         });
