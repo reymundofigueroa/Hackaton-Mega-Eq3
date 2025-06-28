@@ -1,6 +1,7 @@
 using API_promo_configurator.Models.Dtos;
 using API_promo_configurator.Repository.IRepository;
 using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,6 +9,7 @@ namespace API_promo_configurator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowSpecificOrigin")] 
     public class ContratosController : ControllerBase
     {
         private readonly IContratoRepository _contratoRepository;
@@ -29,17 +31,22 @@ namespace API_promo_configurator.Controllers
             return Ok(contratosDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}", Name = "GetContrato")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetContrato(int id)
         {
             var contrato = _contratoRepository.GetContrato(id);
             if (contrato == null)
-                return NotFound();
-            return Ok(_mapper.Map<ContratoDto>(contrato));
+            {
+                return NotFound($"El contrato con el Id {id} no fue encontrado");
+
+            }
+
+            var contratoDto = _mapper.Map<ContratoDto>(contrato);
+
+            return Ok(_mapper.Map<ContratoDto>(contratoDto));
         }
 
-        // Puedes agregar aquí métodos POST, PUT, DELETE si lo necesitas
     }
 }

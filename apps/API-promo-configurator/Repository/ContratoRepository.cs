@@ -21,12 +21,12 @@ public class ContratoRepository : IContratoRepository
 
     public ICollection<Contrato> GetContratos()
     {
-        return _db.Contratos.OrderBy(c => c.IdContrato).ToList();
+        return _db.Contratos.Include(s => s.Suscriptore).OrderBy(c => c.IdContrato).ToList();
     }
 
     public Contrato? GetContrato(int id)
     {
-        return _db.Contratos.FirstOrDefault(c => c.IdContrato == id);
+        return _db.Contratos.Include(s => s.Suscriptore).FirstOrDefault(c => c.IdContrato == id);
     }
 
     public bool CreateContrato(Contrato contrato)
