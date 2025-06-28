@@ -123,6 +123,15 @@ header .title-container {
   color: #191C27;
 }
 
+.modal h2{
+  display: flex;
+  justify-self: center;
+  margin-bottom: 1.6rem;
+}
+.modal p{
+  margin: 0.8rem;
+}
+
 .close-btn {
   position: absolute;
   top: 1rem;
