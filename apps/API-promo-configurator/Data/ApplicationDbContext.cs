@@ -161,13 +161,14 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.IdSucursalNavigation).WithMany(p => p.PromocionAlcances).HasConstraintName("FK_PromocionAlcance_Sucursales");
         });
 
+        // Relación N:M Promocion_Servicios
         modelBuilder.Entity<Promocione>(entity =>
         {
             entity.HasKey(e => e.IdPromocion).HasName("PK__Promocio__F89308E0603D7BF5");
 
             entity.Property(e => e.DuracionMeses).HasDefaultValue(1);
 
-            entity.HasMany(d => d.IdServicios).WithMany(p => p.IdPromocions)
+            entity.HasMany(d => d.Servicios).WithMany(p => p.Promociones)
                 .UsingEntity<Dictionary<string, object>>(
                     "PromocionServicio",
                     r => r.HasOne<Servicio>().WithMany()
