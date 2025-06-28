@@ -1,14 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { GetPromosListService } from '../services/promosList/get-promos-list.service';
+import { promoModel } from '../models/data-models';
 
 @Component({
   selector: 'app-promos-list',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './promos-list.component.html',
   styleUrl: './promos-list.component.css'
 })
-export class PromosListComponent {
-selectedCard: any = null;
+export class PromosListComponent implements OnInit {
+  selectedCard: any = null;
+
+  httpService = inject(GetPromosListService);
+
+  ngOnInit(): void {
+    this.httpService.getPromosList().subscribe((response: promoModel[]) => {
+      console.log(response);
+    });
+  }
 
 cards = [
   { title: 'Promo 1', type: 'Telefonía', discount: '$100 MXN' },
