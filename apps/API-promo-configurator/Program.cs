@@ -37,6 +37,22 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Politica del CORS
+builder.Services.AddCors(options =>
+{
+    // Añadir politica
+    options.AddPolicy(
+        "AllowSpecificOrigin", 
+        builder =>
+        {
+            builder
+                .WithOrigins("http://localhost:4200") // Solo aplicaciones que se ejecuten desde el puerto 4200 pueden ejecutar solicitudes
+                .AllowAnyMethod() // Permite cualquier método
+                .AllowAnyHeader(); // Permite cualquier cabecera
+        }
+    );
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -47,6 +63,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthorization();
 

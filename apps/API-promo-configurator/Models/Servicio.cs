@@ -29,8 +29,13 @@ public partial class Servicio
     [InverseProperty("IdServicioNavigation")]
     public virtual ICollection<ContratoServicio> ContratoServicios { get; set; } = new List<ContratoServicio>();
 
+    /*
     [ForeignKey("IdServicio")]
     [InverseProperty("IdServicios")]
 
     public virtual ICollection<Promocione> IdPromocions { get; set; } = new List<Promocione>();
+    */
+    public virtual ICollection<Promocione> Promociones { get; set; } = new List<Promocione>();
+
+
 }

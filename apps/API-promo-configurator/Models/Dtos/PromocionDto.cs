@@ -14,6 +14,9 @@ public class PromocionDto
     public decimal ValorDescuento { get; set; }
     public string AplicaA { get; set; } = null!;
     public int DuracionMeses { get; set; }
-    // Para mostrar los servicios asociados (opcional)
-    public List<int>? IdServicios { get; set; }
+
+    // Para mostrar los servicios asociados 
+    public List<ServicioDto>? Servicios { get; set; } = new();
+    
+
 }
