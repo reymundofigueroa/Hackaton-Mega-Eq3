@@ -12,30 +12,20 @@ import { promoModel } from '../models/data-models';
   styleUrl: './promos-list.component.css'
 })
 export class PromosListComponent implements OnInit {
-  selectedCard: any = null;
+  selectedCard: promoModel | null = null;
 
   httpService = inject(GetPromosListService);
 
   ngOnInit(): void {
     this.httpService.getPromosList().subscribe((response: promoModel[]) => {
-      console.log(response);
+      this.cards = response
+      console.log(response)
     });
   }
 
-cards = [
-  { title: 'Promo 1', type: 'Telefonía', discount: '$100 MXN' },
-  { title: 'Promo 2', type: 'Internet', discount: '$150 MXN' },
-  { title: 'Promo 3', type: 'TV', discount: '$200 MXN' },
-  { title: 'Promo 4', type: 'Combo', discount: '$300 MXN' },
-  { title: 'Promo 5', type: 'Telefonía', discount: '$120 MXN' },
-  { title: 'Promo 6', type: 'TV', discount: '$90 MXN' },
-  { title: 'Promo 7', type: 'Internet', discount: '$130 MXN' },
-  { title: 'Promo 8', type: 'Combo', discount: '$250 MXN' },
-  { title: 'Promo 9', type: 'Telefonía', discount: '$80 MXN' },
-  { title: 'Promo 10', type: 'TV', discount: '$110 MXN' },
-];
+cards: promoModel[] = [];
 
-openModal(card: any) {
+openModal(card: promoModel) {
   this.selectedCard = card;
 }
 
