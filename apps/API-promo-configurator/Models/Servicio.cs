@@ -31,5 +31,6 @@ public partial class Servicio
 
     [ForeignKey("IdServicio")]
     [InverseProperty("IdServicios")]
+
     public virtual ICollection<Promocione> IdPromocions { get; set; } = new List<Promocione>();
 }

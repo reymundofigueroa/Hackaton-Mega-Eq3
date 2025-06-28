@@ -62,7 +62,6 @@ public partial class ApplicationDbContext : DbContext
         modelBuilder.Entity<Colonia>(entity =>
         {
             entity.HasKey(e => e.IdColonia).HasName("PK__Colonias__E267D3BA2A37A603");
-
             entity.HasOne(d => d.IdCiudadNavigation).WithMany(p => p.Colonia)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Colonias_Ciudades");
@@ -179,7 +178,6 @@ public partial class ApplicationDbContext : DbContext
                         .HasConstraintName("FK_PromocionServicio_Promociones"),
                     j =>
                     {
-                        j.HasKey("IdPromocion", "IdServicio").HasName("PK__Promocio__2E6E0F1D1A1C721D");
                         j.ToTable("Promocion_Servicio");
                         j.IndexerProperty<int>("IdPromocion").HasColumnName("id_promocion");
                         j.IndexerProperty<int>("IdServicio").HasColumnName("id_servicio");
@@ -215,6 +213,7 @@ public partial class ApplicationDbContext : DbContext
                     j =>
                     {
                         j.HasKey("IdSucursal", "IdColonia").HasName("PK__Sucursal__F253FD289F584129");
+
                         j.ToTable("Sucursal_Colonia");
                         j.IndexerProperty<int>("IdSucursal").HasColumnName("id_sucursal");
                         j.IndexerProperty<int>("IdColonia").HasColumnName("id_colonia");
