@@ -1,0 +1,130 @@
+.busqueda-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.busqueda-barra {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.busqueda-barra input {
+  flex: 1;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border 0.2s;
+}
+
+.busqueda-barra input:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+.busqueda-barra button {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.busqueda-barra button:hover {
+  background-color: #303f9f;
+}
+
+.estado {
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.resultados {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.resultados li {
+  background-color: #f3f3f3;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.resultados li:hover {
+  background-color: #e0e0e0;
+}
+
+h2, h3 {
+  color: #3f51b5;
+  margin-bottom: 1rem;
+}
+
+ul {
+  padding-left: 1rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+.tabla-servicios {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-servicios th,
+.tabla-servicios td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.tabla-servicios th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+.resultados {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.resultados li {
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.resultados li:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.resultados h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.resultados p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
