@@ -25,12 +25,12 @@
 
         <div class="scroll-bar">
           <ul>
-  <li *ngFor="let client of clientesFiltrados"
+  <li *ngFor="let client of clientesFiltrados()"
       (click)="selectClient(client)"
       (keyup.enter)="selectClient(client)"
       tabindex="0"
       [class.selected]="client === clientSelected">
-    Contrato: {{ client.idContrato }} {{ client.nombreCliente }}
+    Contrato: {{ client.idSuscriptor }} {{ client.nombre }}
   </li>
 </ul>
         </div>
@@ -51,12 +51,12 @@
 
         <div class="scroll-bar">
           <ul>
-  <li *ngFor="let promo of promocionesFiltradas"
+  <li *ngFor="let promo of promocionesFiltradas(null)"
       (click)="selectPromo(promo)"
       (keyup.enter)="selectPromo(promo)"
       tabindex="0"
       [class.selected]="promo === promoSelected">
-      {{promo.idPromocion}} {{ promo.nombreDePromo }}
+      Promoción Id:  {{promo.idPromocion}} – {{ promo.nombre }}
   </li>
 </ul>
         </div>

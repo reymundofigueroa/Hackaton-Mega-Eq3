@@ -13,3 +13,15 @@ export interface promoModel {
   duracionMeses: number,
   idServicios: (object)[]
 }
+
+export interface clientModel {
+  idSuscriptor: number;
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  rfc: string;
+  email: string;
+  telefonoContacto: string;
+  fechaRegistro: string;
+  idDomicilio: number;
+}
