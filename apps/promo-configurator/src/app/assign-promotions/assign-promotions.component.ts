@@ -53,9 +53,7 @@ export class AssignPromotionsComponent implements OnInit {
         promo.idPromocion.toString().includes(this.promoSearch)
       );
     } else {
-      return this.promotions.filter(promo => {
-        queryByClient.
-      })
+     return this.promotions
     }
   }
 
