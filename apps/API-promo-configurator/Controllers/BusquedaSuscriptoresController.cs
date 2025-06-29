@@ -26,11 +26,11 @@ public class BusquedaSuscriptoresController : ControllerBase
 
         var resultados = await _context.Suscriptores
             .Where(s =>
-                s.Nombre.Contains(termino) ||
-                s.ApellidoPaterno.Contains(termino) ||
-                s.ApellidoMaterno.Contains(termino) ||
-                s.Email.Contains(termino) ||
-                s.Rfc.Contains(termino)
+                (s.Nombre != null && s.Nombre.Contains(termino)) ||
+                (s.ApellidoPaterno != null && s.ApellidoPaterno.Contains(termino)) ||
+                (s.ApellidoMaterno != null && s.ApellidoMaterno.Contains(termino)) ||
+                (s.Email != null && s.Email.Contains(termino)) ||
+                (s.Rfc != null && s.Rfc.Contains(termino))
             ).ToListAsync();
 
         return Ok(resultados);
