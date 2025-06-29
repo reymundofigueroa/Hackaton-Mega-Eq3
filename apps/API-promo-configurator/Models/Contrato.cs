@@ -40,9 +40,13 @@ public partial class Contrato
     [InverseProperty("Contratos")]
     public virtual Sucursale IdSucursalNavigation { get; set; } = null!;
 
+    /*
     [ForeignKey("IdSuscriptor")]
     [InverseProperty("Contratos")]
     public virtual Suscriptore IdSuscriptorNavigation { get; set; } = null!;
+    */
+    [ForeignKey("IdSuscriptor")]
+    public virtual Suscriptore Suscriptore { get; set; } = null!;
 
     [InverseProperty("IdContratoNavigation")]
     public virtual ICollection<MovimientosCuentum> MovimientosCuenta { get; set; } = new List<MovimientosCuentum>();
