@@ -11,7 +11,6 @@ namespace API_promo_configurator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("AllowSpecificOrigin")] 
     public class PromocionesController : ControllerBase
     {
         private readonly IPromocionRepository _promocionRepository;

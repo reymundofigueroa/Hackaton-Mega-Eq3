@@ -17,7 +17,6 @@ namespace API_promo_configurator.Controllers
         }
 
         // Asociar un servicio a una promoción
-        // Asociar un servicio a una promoción
         [HttpPost("asociar")]
         public IActionResult AsociarServicio([FromQuery] int idPromocion, [FromQuery] int idServicio)
         {
@@ -27,16 +26,14 @@ namespace API_promo_configurator.Controllers
             if (promocion == null || servicio == null)
                 return NotFound("Promoción o servicio no encontrado.");
 
-            if (promocion.Servicios.Contains(servicio))
+            if (promocion.IdServicios.Contains(servicio))
                 return BadRequest("El servicio ya está asociado a la promoción.");
 
-            promocion.Servicios.Add(servicio);
+            promocion.IdServicios.Add(servicio);
             _promocionRepository.UpdatePromocion(promocion);
 
             return NoContent();
         }
-
-
 
         // Desasociar un servicio de una promoción
         [HttpDelete("desasociar")]
@@ -48,10 +45,10 @@ namespace API_promo_configurator.Controllers
             if (promocion == null || servicio == null)
                 return NotFound("Promoción o servicio no encontrado.");
 
-            if (!promocion.Servicios.Contains(servicio))
+            if (!promocion.IdServicios.Contains(servicio))
                 return BadRequest("El servicio no está asociado a la promoción.");
 
-            promocion.Servicios.Remove(servicio);
+            promocion.IdServicios.Remove(servicio);
             _promocionRepository.UpdatePromocion(promocion);
 
             return NoContent();
@@ -65,7 +62,7 @@ namespace API_promo_configurator.Controllers
             if (promocion == null)
                 return NotFound("Promoción no encontrada.");
 
-            var servicios = promocion.Servicios.Select(s => new
+            var servicios = promocion.IdServicios.Select(s => new
             {
                 s.IdServicio,
                 s.Nombre,
@@ -75,6 +72,5 @@ namespace API_promo_configurator.Controllers
 
             return Ok(servicios);
         }
-
     }
 }

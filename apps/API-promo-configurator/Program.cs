@@ -46,9 +46,12 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder
-                .WithOrigins("http://localhost:4200") // Solo aplicaciones que se ejecuten desde el puerto 4200 pueden ejecutar solicitudes
-                .AllowAnyMethod() // Permite cualquier método
-                .AllowAnyHeader(); // Permite cualquier cabecera
+                .WithOrigins(
+                    "http://localhost:4200"  // Angular default
+                )
+                .AllowAnyMethod() // Permite cualquier método (GET, POST, PUT, DELETE, etc.)
+                .AllowAnyHeader() // Permite cualquier cabecera
+                .AllowCredentials(); // Permite cookies y headers de autenticación
         }
     );
 });
