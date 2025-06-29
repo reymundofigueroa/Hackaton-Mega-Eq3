@@ -168,7 +168,7 @@ public partial class ApplicationDbContext : DbContext
 
             entity.Property(e => e.DuracionMeses).HasDefaultValue(1);
 
-            entity.HasMany(d => d.Servicios).WithMany(p => p.Promociones)
+            entity.HasMany(d => d.IdServicios).WithMany(p => p.Promociones)
                 .UsingEntity<Dictionary<string, object>>(
                     "PromocionServicio",
                     r => r.HasOne<Servicio>().WithMany()

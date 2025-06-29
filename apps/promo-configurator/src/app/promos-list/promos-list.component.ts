@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { GetPromosListService } from '../services/promosList/get-promos-list.service';
 import { promoModel } from '../models/data-models';
+import { NavBarComponent } from "../nav-bar/nav-bar.component";
 
 @Component({
   selector: 'app-promos-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, NavBarComponent],
   templateUrl: './promos-list.component.html',
   styleUrl: './promos-list.component.css'
 })

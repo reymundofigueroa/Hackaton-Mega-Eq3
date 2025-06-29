@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <ul>
+    <li *ngIf="!isCurrentRoute('/home')">
+      <a routerLink="/home" routerLinkActive="active">Inicio</a>
+    </li>
+    <li *ngIf="!isCurrentRoute('/crear-promo')">
+      <a routerLink="/crear-promo" routerLinkActive="active">Crear Promo</a>
+    </li>
+    <li *ngIf="!isCurrentRoute('/lista-de-promos')">
+      <a routerLink="/lista-de-promos" routerLinkActive="active">Lista de Promos</a>
+    </li>
+    <li *ngIf="!isCurrentRoute('/asignar-promoción')">
+      <a routerLink="/asignar-promoción" routerLinkActive="active">Asignar Promoción</a>
+    </li>
+    <li *ngIf="!isCurrentRoute('/calculo-de-deuda')">
+      <a routerLink="/calculo-de-deuda" routerLinkActive="active">Cálculo de Deuda</a>
+    </li>
+  </ul>
+</nav>
