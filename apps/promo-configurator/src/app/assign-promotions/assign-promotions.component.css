@@ -30,21 +30,21 @@ header .title-container {
   flex-wrap: wrap;
   justify-content: center;
   align-content: start;
-  margin-top: 2rem;
+  margin-top: 4rem;
   width: 100%;
 }
 .cards-container article{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40rem;
-  min-height: 42rem;
-  max-height: 60rem;
+  width: 45rem;
+  min-height: 56rem;
+  max-height: 68rem;
   margin: 0 5rem;
 
 }
 .cards-container article h2{
-  margin-bottom: 0.4rem;
+  margin: 2rem 0;
   font-size: 2.8rem;
 }
 .card{

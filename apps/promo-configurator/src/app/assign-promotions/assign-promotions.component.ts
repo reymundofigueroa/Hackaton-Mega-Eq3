@@ -6,9 +6,10 @@ import { GetClientsListService } from '../services/clientsList/get-clients-list.
 import { HttpClientModule } from '@angular/common/http';
 import { promoModel } from '../models/data-models';
 import { clientModel } from '../models/data-models';
+import { NavBarComponent } from "../nav-bar/nav-bar.component";
 @Component({
   selector: 'app-assign-promotions',
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, NavBarComponent],
   templateUrl: './assign-promotions.component.html',
   styleUrl: './assign-promotions.component.css'
 })
