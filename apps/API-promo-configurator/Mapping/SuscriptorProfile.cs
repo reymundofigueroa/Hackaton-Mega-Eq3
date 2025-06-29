@@ -12,5 +12,6 @@ public class SuscriptorProfile : Profile
             .ForMember(dest => dest.FechaRegistro, opt => opt.MapFrom(src => src.FechaRegistro.ToDateTime(TimeOnly.MinValue)))
             .ReverseMap()
             .ForMember(dest => dest.FechaRegistro, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.FechaRegistro)));
+
     }
 } 
