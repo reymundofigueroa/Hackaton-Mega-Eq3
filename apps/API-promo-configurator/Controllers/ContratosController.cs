@@ -10,7 +10,6 @@ namespace API_promo_configurator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("AllowSpecificOrigin")] 
     public class ContratosController : ControllerBase
     {
         private readonly IContratoRepository _contratoRepository;
@@ -45,18 +44,34 @@ namespace API_promo_configurator.Controllers
             return Ok(_mapper.Map<ContratoDto>(contrato));
         }
 
+        [HttpGet("detalle/{id:int}", Name = "GetContratoDetalle")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetContratoDetalle(int id)
+        {
+            var contrato = _contratoRepository.GetContrato(id);
+            if (contrato == null)
+            {
+                return NotFound($"El contrato con el Id {id} no fue encontrado");
+            }
+
+            var contratoDto = _mapper.Map<ContratoDto>(contrato);
+
+            return Ok(contratoDto);
+        }
+
         [HttpGet("suscriptor/{idSuscriptor}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetContratosPorSuscriptor(int idSuscriptor)
         {
             var contratos = _db.Contratos
-                .Include(c => c.IdSuscriptorNavigation)
+                .Include(c => c.Suscriptore)
                 .Include(c => c.IdSucursalNavigation)
                 .Include(c => c.ContratoServicios)
                     .ThenInclude(cs => cs.IdServicioNavigation)
                 .Include(c => c.ContratoPromociones)
                     .ThenInclude(cp => cp.IdPromocionNavigation)
-                .Where(c => c.IdSuscriptor == idSuscriptor)
+                .Where(c => c.Suscriptore.IdSuscriptor == idSuscriptor)
                 .Select(c => new
                 {
                     c.IdContrato,
@@ -65,11 +80,11 @@ namespace API_promo_configurator.Controllers
                     c.Estado,
                     Suscriptor = new
                     {
-                        c.IdSuscriptorNavigation.IdSuscriptor,
-                        c.IdSuscriptorNavigation.Nombre,
-                        c.IdSuscriptorNavigation.ApellidoPaterno,
-                        c.IdSuscriptorNavigation.ApellidoMaterno,
-                        c.IdSuscriptorNavigation.Email
+                        c.Suscriptore.IdSuscriptor,
+                        c.Suscriptore.Nombre,
+                        c.Suscriptore.ApellidoPaterno,
+                        c.Suscriptore.ApellidoMaterno,
+                        c.Suscriptore.Email
                     },
                     Sucursal = new
                     {

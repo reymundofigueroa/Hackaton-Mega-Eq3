@@ -10,7 +10,6 @@ namespace API_promo_configurator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("AllowSpecificOrigin")]
     public class MovimientosCuentaController : ControllerBase
     {
         private readonly IMovimientosCuentaRepository _movimientosCuentaRepository;
@@ -51,7 +50,7 @@ namespace API_promo_configurator.Controllers
         {
             var movimientos = _db.MovimientosCuenta
                 .Include(m => m.IdContratoNavigation)
-                .Where(m => m.IdContratoNavigation.IdSuscriptor == idSuscriptor)
+                .Where(m => m.IdContratoNavigation.Suscriptore.IdSuscriptor == idSuscriptor)
                 .Select(m => new
                 {
                     m.IdMovimiento,

@@ -10,7 +10,6 @@ namespace API_promo_configurator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("AllowSpecificOrigin")] 
     public class SucursalesController : ControllerBase
     {
         private readonly ISucursalRepository _sucursalRepository;
