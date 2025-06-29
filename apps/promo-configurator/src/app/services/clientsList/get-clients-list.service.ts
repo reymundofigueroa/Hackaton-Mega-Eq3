@@ -19,4 +19,11 @@ export class GetClientsListService {
     )
   }
 
+  getCustomerServices(): Observable<any>{
+    return this.http.get<any>(`${this.ApiUrl}`).pipe(
+      map((response: any) => response),
+      catchError(error => throwError(error))
+    )
+  }
+
 }
