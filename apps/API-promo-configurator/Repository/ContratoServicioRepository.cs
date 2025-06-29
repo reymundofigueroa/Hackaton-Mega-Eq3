@@ -23,7 +23,7 @@ public class ContratoServicioRepository : IContratoServicioRepository
     {
         return _db.ContratoServicios
             .Include(cs => cs.IdContratoNavigation)
-            .Include(cs => cs.IdServicioNavigation)
+            .Include(cs => cs.Servicio)
             .OrderBy(cs => cs.IdContratoServicio)
             .ToList();
     }
@@ -32,16 +32,16 @@ public class ContratoServicioRepository : IContratoServicioRepository
     {
         return _db.ContratoServicios
             .Include(cs => cs.IdContratoNavigation)
-            .Include(cs => cs.IdServicioNavigation)
+            .Include(cs => cs.Servicio)
             .FirstOrDefault(cs => cs.IdContratoServicio == id);
     }
 
     public ICollection<ContratoServicio> GetServiciosPorContrato(int idContrato)
     {
         return _db.ContratoServicios
-            .Include(cs => cs.IdServicioNavigation)
+            .Include(cs => cs.Servicio)
             .Where(cs => cs.IdContrato == idContrato)
-            .OrderBy(cs => cs.IdServicioNavigation.Nombre)
+            .OrderBy(cs => cs.Servicio.Nombre)
             .ToList();
     }
 

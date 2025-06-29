@@ -21,6 +21,9 @@ public partial class ContratoServicio
     [Column("id_servicio")]
     public int IdServicio { get; set; }
 
+    [ForeignKey("IdServicio")]
+    public virtual Servicio Servicio { get; set; } = null!;
+
     [Column("precio_contratado", TypeName = "decimal(10, 2)")]
     public decimal PrecioContratado { get; set; }
 
@@ -31,7 +34,9 @@ public partial class ContratoServicio
     [InverseProperty("ContratoServicios")]
     public virtual Contrato IdContratoNavigation { get; set; } = null!;
 
+    /*
     [ForeignKey("IdServicio")]
     [InverseProperty("ContratoServicios")]
     public virtual Servicio IdServicioNavigation { get; set; } = null!;
+    */
 }

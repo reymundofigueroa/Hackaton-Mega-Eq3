@@ -21,8 +21,14 @@ public class ContratoRepository : IContratoRepository
 
     public ICollection<Contrato> GetContratos()
     {
-        return _db.Contratos.Include(s => s.Suscriptore).OrderBy(c => c.IdContrato).ToList();
+        return _db.Contratos
+            .Include(c => c.Suscriptore)
+            .Include(c => c.ContratoServicios)
+                .ThenInclude(cs => cs.Servicio)
+            .OrderBy(c => c.IdContrato)
+            .ToList();
     }
+
 
     public Contrato? GetContrato(int id)
     {

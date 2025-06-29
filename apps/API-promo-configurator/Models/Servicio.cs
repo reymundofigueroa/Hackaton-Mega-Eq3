@@ -26,7 +26,7 @@ public partial class Servicio
     [Column("activo")]
     public bool Activo { get; set; }
 
-    [InverseProperty("IdServicioNavigation")]
+    [InverseProperty("Servicio")]
     public virtual ICollection<ContratoServicio> ContratoServicios { get; set; } = new List<ContratoServicio>();
 
     /*
