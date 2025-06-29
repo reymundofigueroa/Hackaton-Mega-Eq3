@@ -1,1 +1,58 @@
-<p>debt-calculation works!</p>
+<div class="busqueda-container">
+  <h2>Búsqueda de Clientes</h2>
+
+  <div class="busqueda-barra">
+    <input type="text" [(ngModel)]="termino" placeholder="Buscar por nombre, RFC, email..." />
+    <button (click)="buscar()">Buscar</button>
+  </div>
+
+  <div class="estado">
+    <p *ngIf="buscando"> Buscando...</p>
+    <p *ngIf="!buscando && resultados.length === 0 && termino">
+      ❌ No se encontraron resultados.
+    </p>
+  </div>
+
+<ul class="resultados" *ngIf="resultados.length > 0">
+  <li *ngFor="let s of resultados" (click)="seleccionarSuscriptor(s)">
+    <h4>{{ s.nombre }} {{ s.apellidoPaterno }} {{ s.apellidoMaterno || '' }}</h4>
+    <p><strong>Email:</strong> {{ s.email }}</p>
+    <p><strong>Teléfono:</strong> {{ s.telefonoContacto }}</p>
+    <p><strong>RFC:</strong> {{ s.rfc || 'No disponible' }}</p>
+  </li>
+</ul>
+
+
+  <!-- Servicios contratados -->
+  <div *ngIf="suscriptorSeleccionado">
+    <h3>Servicios contratados para: {{ suscriptorSeleccionado.nombre }} {{ suscriptorSeleccionado.apellidoPaterno }}
+    </h3>
+    <p *ngIf="cargandoServicios">⏳ Cargando servicios...</p>
+
+    <table *ngIf="servicios.length > 0" class="tabla-servicios">
+      <thead>
+        <tr>
+          <th>Servicio</th>
+          <th>Precio Contratado</th>
+          <th>Promoción</th>
+          <th>Tipo Descuento</th>
+          <th>Fecha Aplicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let servicio of servicios">
+          <td>{{ servicio.servicio }}</td>
+          <td>{{ servicio.precioContratado | currency }}</td>
+          <td>{{ servicio.promocion || 'N/A' }}</td>
+          <td>{{ servicio.tipoDescuento || 'N/A' }}</td>
+          <td>{{ servicio.fechaAplicacion ? (servicio.fechaAplicacion | date) : 'N/A' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!cargandoServicios && servicios.length === 0">
+      ❗ Este cliente no tiene servicios contratados.
+    </p>
+  </div>
+
+</div>
