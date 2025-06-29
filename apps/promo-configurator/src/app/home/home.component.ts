@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -19,10 +20,10 @@ export class HomeComponent {
   }
 
   goToAssignPromo() {
-    this.router.navigate(['/asignar-promoción'])
+    this.router.navigate(['/asignar-promoción']);
   }
 
   goToDebtCalculator() {
-    this.router.navigate(['/cálculo-de-deuda'])
+    this.router.navigate(['/calculo-de-deuda']);
   }
 }

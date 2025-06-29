@@ -11,10 +11,10 @@ export class GetPromosListService {
 
   private http = inject(HttpClient);
 
-  ApiUrl = 'http://localhost:5267/api/Promociones';
+  ApiUrl = 'http://localhost:5267/api/';
 
   getPromosList(): Observable<promoModel[]>{
-    return this.http.get<promoModel[]>(`${this.ApiUrl}`).pipe(
+    return this.http.get<promoModel[]>(`${this.ApiUrl}Promociones`).pipe(
       map((response:promoModel[]) => response),
       catchError(error => throwError(error))
     )
