@@ -58,7 +58,7 @@ header .title-container {
   padding-bottom: 1rem;
   flex-wrap: nowrap;
   gap: 1.6rem;
-
+  text-align: center;
 }
 
 .card {
