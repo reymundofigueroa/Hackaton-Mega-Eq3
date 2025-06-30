@@ -13,3 +13,4 @@ public class ServicioDto
 
     public decimal PrecioBaseActual { get; set; }
 }
+

@@ -34,6 +34,26 @@ namespace API_promo_configurator.Controllers
             return Ok(promocionesDto);
         }
 
+        // Endpoint para obtener un producto mediante el id
+        [HttpGet("{promocionId:int}", Name = "GetPromocion")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)] // El usuario no está autorizado a acceder a este recurso
+        [ProducesResponseType(StatusCodes.Status400BadRequest)] // Realizó mala petición
+        [ProducesResponseType(StatusCodes.Status404NotFound)] // Producto no encontrado
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetPromocion(int promocionId) // El nombre del parametro debe ser igual al reflejado en la ruta de la propiedad
+        {
+            var promocion = _promocionRepository.GetPromocion(promocionId);
+
+            if (promocion == null)
+            {
+                return NotFound($"La promoción con el ID {promocionId} no existe");
+            }
+
+            var promocionDto = _mapper.Map<PromocionDto>(promocion);
+
+            return Ok(promocionDto);
+        }
+
         [HttpPost("crear-completa")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,7 +87,7 @@ namespace API_promo_configurator.Controllers
                     // Agregar servicios uno por uno a la colección de navegación
                     foreach (var servicio in servicios)
                     {
-                        promocion.IdServicios.Add(servicio);
+                        promocion.Servicios.Add(servicio);
                     }
                 }
                 

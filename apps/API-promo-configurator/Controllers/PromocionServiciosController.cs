@@ -26,10 +26,10 @@ namespace API_promo_configurator.Controllers
             if (promocion == null || servicio == null)
                 return NotFound("Promoción o servicio no encontrado.");
 
-            if (promocion.IdServicios.Contains(servicio))
+            if (promocion.Servicios.Contains(servicio))
                 return BadRequest("El servicio ya está asociado a la promoción.");
 
-            promocion.IdServicios.Add(servicio);
+            promocion.Servicios.Add(servicio);
             _promocionRepository.UpdatePromocion(promocion);
 
             return NoContent();
@@ -45,10 +45,10 @@ namespace API_promo_configurator.Controllers
             if (promocion == null || servicio == null)
                 return NotFound("Promoción o servicio no encontrado.");
 
-            if (!promocion.IdServicios.Contains(servicio))
+            if (!promocion.Servicios.Contains(servicio))
                 return BadRequest("El servicio no está asociado a la promoción.");
 
-            promocion.IdServicios.Remove(servicio);
+            promocion.Servicios.Remove(servicio);
             _promocionRepository.UpdatePromocion(promocion);
 
             return NoContent();
@@ -62,7 +62,7 @@ namespace API_promo_configurator.Controllers
             if (promocion == null)
                 return NotFound("Promoción no encontrada.");
 
-            var servicios = promocion.IdServicios.Select(s => new
+            var servicios = promocion.Servicios.Select(s => new
             {
                 s.IdServicio,
                 s.Nombre,
