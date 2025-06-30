@@ -1,99 +1,74 @@
 # 🎯 API Promo Configurator
 
-API RESTful para la gestión de promociones, contratos, suscriptores y servicios de una empresa de telecomunicaciones. Construida con ASP.NET Core 8 y metodología Database First.
-
----
+API RESTful para la gestión de promociones, contratos, suscriptores y servicios de una empresa de telecomunicaciones. Desarrollada en ASP.NET Core 8 con enfoque Database First y arquitectura por capas (DTOs, repositorios, mapeo con AutoMapper).
 
 ## Modelo relacional de la base de datos
 ![Esquema_Relacional](https://github.com/user-attachments/assets/949a22e3-8616-47c6-8015-47584473bc12)
 
+---
+
 ## 📦 Estructura del Proyecto
 
-- **Controllers**: Define los endpoints HTTP.
-- **Models**: Clases generadas desde base de datos (Database First).
-- **Dtos**: Objetos de transferencia de datos usados en la API.
-- **Repository / IRepository**: Capa de abstracción y lógica de acceso a datos.
-- **Mapping**: Archivos AutoMapper para transformar entidades ↔ DTOs.
-- **Data**: DbContext (`ApplicationDbContext`) que gestiona la conexión a la base de datos.
+- `Controllers/` — Endpoints públicos de la API.
+- `Models/` — Entidades generadas desde la base de datos (DB First).
+- `Dtos/` — Objetos de transferencia de datos entre cliente ↔ API.
+- `Repository/` y `IRepository/` — Capa de acceso y lógica de datos.
+- `Mapping/` — Configuración de AutoMapper para transformación de datos.
+- `Data/ApplicationDbContext.cs` — Contexto EF Core que gestiona las entidades y relaciones.
 
 ---
 
-## 🔌 Endpoints principales
+## 🔗 Relaciones Clave en la Base de Datos
 
-### 📝 Contratos
+### 📘 Relación de entidades principales
+
+| Entidad | Relación | Descripción |
+|--------|----------|-------------|
+| `Contratos` ↔ `Suscriptores` | 1:N | Un suscriptor puede tener varios contratos. |
+| `Contratos` ↔ `Servicios` | N:M | Mediante tabla intermedia `Contrato_Servicios`. |
+| `Contratos` ↔ `Promociones` | N:M | Mediante `Contrato_Promociones`. Se registra `fecha_aplicacion`. |
+| `Promociones` ↔ `Servicios` | N:M | Tabla intermedia `Promocion_Servicio`. Define qué servicios incluye cada promoción. |
+| `Promociones` ↔ `Zonas geográficas` | 1:N | Se define mediante `Promocion_Alcance`. Incluye estado, municipio, ciudad, colonia y sucursal. |
+| `Suscriptores` ↔ `Domicilios` | 1:1 | El suscriptor está ligado a un domicilio. |
+| `Sucursales` ↔ `Colonias` | N:M | Relación manejada mediante `Sucursal_Colonia`. |
+| `MovimientosCuenta` ↔ `Contratos` | 1:N | Cada contrato puede tener múltiples movimientos contables. |
+
+---
+
+## 🧪 Endpoints principales
+
+### 📄 Contratos
 
 - `GET /api/contratos`  
-  Retorna todos los contratos y sus detalles.
+  Listado de contratos con su suscriptor y servicios.
 
 - `POST /api/contratos`  
-  Crea un nuevo contrato con sus servicios asociados.
+  Crea un nuevo contrato con servicios contratados.
 
 ### 🛍️ Promociones
 
 - `GET /api/promociones`  
-  Lista todas las promociones, incluyendo los servicios ligados.
+  Lista todas las promociones disponibles, junto con los servicios asociados.
 
 - `POST /api/promociones/crear-completa`  
-  Crea una promoción con servicios y alcances (por zona geográfica).
+  Crea una promoción nueva incluyendo sus servicios y zonas de alcance.
 
-### 🔗 Contrato-Promociones
+### 🔄 Contrato Promociones
 
 - `GET /api/contratoPromociones`  
-  Muestra todas las promociones asignadas a contratos.
+  Retorna todas las promociones aplicadas a contratos.
 
-- `GET /api/contratoPromociones/contrato/{idContrato}`  
-  Muestra las promociones asignadas a un contrato específico.
+- `GET /api/contratoPromociones/contrato/{id}`  
+  Promociones activas para un contrato específico.
 
 - `POST /api/contratoPromociones`  
-  Asigna una promoción a un contrato. Solo se requiere el `idContrato` y `idPromocion`, la fecha se establece automáticamente desde el backend.
+  Asigna una promoción a un contrato existente.
 
----
+#### Ejemplo de `POST /api/contratoPromociones`
 
-## 🗃️ Estructura de la Base de Datos (Resumen de relaciones)
-
-- **Contrato ↔ Servicio**: Relación N:M (`Contrato_Servicios`)
-- **Contrato ↔ Promoción**: Relación N:M (`Contrato_Promociones`)
-- **Promoción ↔ Servicio**: Relación N:M (`Promocion_Servicio`)
-- **Promoción ↔ Alcance**: Relación 1:N para delimitar zonas geográficas (`Promocion_Alcances`)
-- **Contrato ↔ Suscriptor**: Relación 1:N
-
----
-
-## 🔄 Flujo para asignar promociones
-
-1. El usuario selecciona un contrato desde el panel izquierdo.
-2. El frontend filtra y muestra las promociones disponibles según los servicios del contrato.
-3. Se selecciona una promoción.
-4. Se ejecuta el `POST /api/contratoPromociones` enviando `{ idContrato, idPromocion }`.
-5. El backend asigna la promoción al contrato y guarda la fecha actual como `fechaAplicacion`.
-
----
-
-## 🧪 Pruebas
-
-Puedes probar los endpoints desde:
-- Postman (colección incluida si aplica).
-- Swagger (`http://localhost:{puerto}/swagger`).
-
----
-
-## 🛠️ Tecnologías
-
-- .NET 8
-- Entity Framework Core (Database First)
-- AutoMapper
-- Swagger para documentación interactiva
-- SQL Server
-
----
-
-## 📁 Ejemplo de Request (Asignar promoción a contrato)
-
-```http
-POST /api/contratoPromociones
-Content-Type: application/json
-
+```json
 {
   "idContrato": 1,
-  "idPromocion": 3
+  "idPromocion": 2
 }
+
