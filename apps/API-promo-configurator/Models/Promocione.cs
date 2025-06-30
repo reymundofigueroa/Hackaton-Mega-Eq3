@@ -48,8 +48,13 @@ public partial class Promocione
     [InverseProperty("IdPromocionNavigation")]
     public virtual ICollection<PromocionAlcance> PromocionAlcances { get; set; } = new List<PromocionAlcance>();
 
+    /*
     [ForeignKey("IdPromocion")]
     [InverseProperty("Promociones")]
     public virtual ICollection<Servicio> IdServicios { get; set; } = new List<Servicio>();
+    */
+
+    public virtual ICollection<Servicio> Servicios { get; set; } = new List<Servicio>();
+
 
 }
