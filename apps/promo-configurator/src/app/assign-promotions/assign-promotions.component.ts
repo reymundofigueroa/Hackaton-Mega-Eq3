@@ -22,6 +22,7 @@ export class AssignPromotionsComponent implements OnInit {
   clientSelected: clientModel | null = null;
   promoSelected: promoModel | null = null;
 
+  customerData: any = null
 
   clientsToShow = []
   clients: clientModel[] = [];
@@ -63,6 +64,10 @@ export class AssignPromotionsComponent implements OnInit {
       this.clientSelected = null;
     } else {
       this.clientSelected = this.clientSelected === client ? null : client;
+      this.getClientsService.getCustomerServices(this.clientSelected!.idSuscriptor).subscribe(response => {
+        this.customerData = response
+        console.log('User Data🎯', this.customerData)
+      })
     }
   }
   selectPromo(promo: promoModel) {
