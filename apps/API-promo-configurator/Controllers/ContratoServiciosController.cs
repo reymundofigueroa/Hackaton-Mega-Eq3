@@ -49,6 +49,5 @@ namespace API_promo_configurator.Controllers
             return Ok(serviciosDto);
         }
 
-        // Puedes agregar aquí métodos POST, PUT, DELETE si lo necesitas
     }
 }
