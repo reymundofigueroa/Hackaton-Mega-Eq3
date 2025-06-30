@@ -54,9 +54,7 @@ export class AssignPromotionsComponent implements OnInit {
         promo.idPromocion.toString().includes(this.promoSearch)
       );
     } else {
-     return this.promotions.filter(promo =>
-      promo.idServicios ===
-     )
+     return this.promotions
     }
   }
 
