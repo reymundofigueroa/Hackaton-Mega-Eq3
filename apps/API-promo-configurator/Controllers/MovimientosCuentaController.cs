@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_promo_configurator.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de movimientos de cuenta.
+    /// Permite consultar todos los movimientos, obtener un movimiento específico y consultar movimientos por suscriptor.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MovimientosCuentaController : ControllerBase
@@ -23,6 +27,14 @@ namespace API_promo_configurator.Controllers
             _db = db;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todos los movimientos de cuenta registrados.
+        /// </summary>
+        /// <remarks>
+        /// Retorna una lista de movimientos de cuenta con información básica.
+        /// </remarks>
+        /// <response code="200">Retorna la lista de movimientos de cuenta</response>
+        /// <response code="403">No autorizado para acceder a los movimientos de cuenta</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,6 +45,13 @@ namespace API_promo_configurator.Controllers
             return Ok(movimientosDto);
         }
 
+        /// <summary>
+        /// Obtiene un movimiento de cuenta específico por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del movimiento de cuenta</param>
+        /// <returns>Movimiento de cuenta encontrado</returns>
+        /// <response code="200">Movimiento de cuenta encontrado</response>
+        /// <response code="404">Movimiento de cuenta no encontrado</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -44,6 +63,12 @@ namespace API_promo_configurator.Controllers
             return Ok(_mapper.Map<MovimientosCuentaDto>(movimiento));
         }
 
+        /// <summary>
+        /// Obtiene los movimientos de cuenta asociados a un suscriptor específico.
+        /// </summary>
+        /// <param name="idSuscriptor">Identificador del suscriptor</param>
+        /// <returns>Lista de movimientos de cuenta del suscriptor</returns>
+        /// <response code="200">Lista de movimientos de cuenta encontrada</response>
         [HttpGet("suscriptor/{idSuscriptor}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetMovimientosPorSuscriptor(int idSuscriptor)

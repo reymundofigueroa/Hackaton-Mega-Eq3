@@ -19,6 +19,11 @@ export class GetClientsListService {
     )
   }
 
-
+  getCustomerServices(id: number): Observable<any>{
+    return this.http.get<any>(`${this.ApiUrl}Contratos/suscriptor/${id}`).pipe(
+      map((response: any) => response),
+      catchError(error => throwError(error))
+    )
+  }
 
 }

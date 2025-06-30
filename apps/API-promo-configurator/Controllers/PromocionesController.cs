@@ -9,6 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_promo_configurator.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de promociones.
+    /// Permite consultar promociones, obtener detalles y crear promociones completas con servicios y alcances asociados.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PromocionesController : ControllerBase
@@ -24,6 +28,14 @@ namespace API_promo_configurator.Controllers
             _db = db;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todas las promociones registradas.
+        /// </summary>
+        /// <remarks>
+        /// Retorna una lista de promociones con información básica.
+        /// </remarks>
+        /// <response code="200">Retorna la lista de promociones</response>
+        /// <response code="403">No autorizado para acceder a las promociones</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -34,11 +46,19 @@ namespace API_promo_configurator.Controllers
             return Ok(promocionesDto);
         }
 
-        // Endpoint para obtener un producto mediante el id
+        /// <summary>
+        /// Obtiene una promoción específica por su identificador.
+        /// </summary>
+        /// <param name="promocionId">Identificador de la promoción</param>
+        /// <returns>Promoción encontrada</returns>
+        /// <response code="200">Promoción encontrada</response>
+        /// <response code="400">Petición incorrecta</response>
+        /// <response code="403">No autorizado</response>
+        /// <response code="404">Promoción no encontrada</response>
         [HttpGet("{promocionId:int}", Name = "GetPromocion")]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)] // El usuario no está autorizado a acceder a este recurso
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] // Realizó mala petición
-        [ProducesResponseType(StatusCodes.Status404NotFound)] // Producto no encontrado
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetPromocion(int promocionId) // El nombre del parametro debe ser igual al reflejado en la ruta de la propiedad
         {
@@ -54,6 +74,37 @@ namespace API_promo_configurator.Controllers
             return Ok(promocionDto);
         }
 
+        /// <summary>
+        /// Crea una promoción completa con servicios y alcances asociados.
+        /// </summary>
+        /// <param name="dto">Datos de la promoción completa a crear</param>
+        /// <returns>Resultado de la creación de la promoción</returns>
+        /// <remarks>
+        /// Ejemplo de petición:
+        ///
+        ///     POST /api/Promociones/crear-completa
+        ///     {
+        ///         "nombre": "Promo Verano",
+        ///         "descripcion": "Descuento especial de verano",
+        ///         "tipoDescuento": "PORCENTAJE",
+        ///         "valorDescuento": 0.15,
+        ///         "aplicaA": "MENSUALIDAD",
+        ///         "duracionMeses": 3,
+        ///         "idServicios": [1, 2],
+        ///         "alcances": [
+        ///             {
+        ///                 "idEstado": 1,
+        ///                 "idMunicipio": 2,
+        ///                 "idCiudad": 3,
+        ///                 "idColonia": 4,
+        ///                 "idSucursal": 5
+        ///             }
+        ///         ]
+        ///     }
+        ///
+        /// </remarks>
+        /// <response code="201">Promoción creada exitosamente</response>
+        /// <response code="400">Datos inválidos o error al crear la promoción</response>
         [HttpPost("crear-completa")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
