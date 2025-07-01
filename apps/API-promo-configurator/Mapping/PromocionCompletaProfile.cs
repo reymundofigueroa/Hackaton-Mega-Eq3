@@ -10,6 +10,7 @@ public class PromocionCompletaProfile : Profile
     {
         CreateMap<PromocionCompletaDto, Promocione>()
             .ForMember(dest => dest.FechaInicio, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.FechaInicio)))
-            .ForMember(dest => dest.FechaFin, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.FechaFin)));
+            .ForMember(dest => dest.FechaFin, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.FechaFin)))
+            .ForMember(dest => dest.Servicios, opt => opt.Ignore());
     }
 } 

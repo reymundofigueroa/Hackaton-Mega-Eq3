@@ -71,6 +71,14 @@ namespace API_promo_configurator.Controllers
 
             var promocionDto = _mapper.Map<PromocionDto>(promocion);
 
+            // Debug: Log para verificar servicios
+            Console.WriteLine($"Promoción {promocionDto.IdPromocion}: {promocionDto.Nombre}");
+            Console.WriteLine($"Servicios en DTO: {promocionDto.Servicios.Count}");
+            foreach (var servicio in promocionDto.Servicios)
+            {
+                Console.WriteLine($"  - Servicio: {servicio.IdServicio} - {servicio.Nombre}");
+            }
+
             return Ok(promocionDto);
         }
 
@@ -122,7 +130,7 @@ namespace API_promo_configurator.Controllers
                 _db.Promociones.Add(promocion);
                 await _db.SaveChangesAsync(); // Esto genera el ID
                 
-                // 2. Crear servicios asociados (solo si se envían)
+                // 2. Crear servicios asociados
                 if (dto.IdServicios != null && dto.IdServicios.Any())
                 {
                     var servicios = await _db.Servicios
@@ -132,10 +140,10 @@ namespace API_promo_configurator.Controllers
                     if (servicios.Count != dto.IdServicios.Count)
                     {
                         await transaction.RollbackAsync();
-                        return BadRequest("Algunos servicios especificados no existen");
+                        return BadRequest($"Algunos servicios especificados no existen. Servicios encontrados: {servicios.Count}, servicios solicitados: {dto.IdServicios.Count}");
                     }
                     
-                    // Agregar servicios uno por uno a la colección de navegación
+                    // Agregar servicios a la colección de navegación (Entity Framework manejará la tabla intermedia)
                     foreach (var servicio in servicios)
                     {
                         promocion.Servicios.Add(servicio);
@@ -172,6 +180,70 @@ namespace API_promo_configurator.Controllers
             {
                 await transaction.RollbackAsync();
                 return BadRequest($"Error al crear la promoción: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Endpoint de prueba para verificar la relación promoción-servicios
+        /// </summary>
+        [HttpGet("test-servicios")]
+        public async Task<IActionResult> TestServicios()
+        {
+            try
+            {
+                // Obtener todas las promociones con servicios
+                var promociones = await _db.Promociones
+                    .Include(p => p.Servicios)
+                    .ToListAsync();
+
+                var resultado = new List<object>();
+
+                foreach (var promocion in promociones)
+                {
+                    var promocionInfo = new
+                    {
+                        IdPromocion = promocion.IdPromocion,
+                        Nombre = promocion.Nombre,
+                        ServiciosCount = promocion.Servicios.Count,
+                        Servicios = promocion.Servicios.Select(s => new
+                        {
+                            IdServicio = s.IdServicio,
+                            Nombre = s.Nombre
+                        }).ToList()
+                    };
+
+                    resultado.Add(promocionInfo);
+                }
+
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Endpoint de prueba para recibir datos del frontend
+        /// </summary>
+        [HttpPost("test-frontend")]
+        public IActionResult TestFrontend([FromBody] object data)
+        {
+            try
+            {
+                Console.WriteLine("=== DATOS RECIBIDOS DEL FRONTEND ===");
+                Console.WriteLine($"Tipo de dato: {data.GetType().Name}");
+                Console.WriteLine($"Contenido: {System.Text.Json.JsonSerializer.Serialize(data, new System.Text.Json.JsonSerializerOptions { WriteIndented = true })}");
+                
+                return Ok(new { 
+                    Mensaje = "Datos recibidos correctamente",
+                    Tipo = data.GetType().Name,
+                    Contenido = data
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error: {ex.Message}");
             }
         }
 

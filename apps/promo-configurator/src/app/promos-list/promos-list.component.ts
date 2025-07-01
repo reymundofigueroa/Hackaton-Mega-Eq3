@@ -27,17 +27,27 @@ export class PromosListComponent implements OnInit {
 
   ngOnInit(): void {
   this.httpService.getPromosList().subscribe((response: promoModel[]) => {
+    console.log('Promociones recibidas:', response);
     this.cards = response;
 
+    // Debug: Verificar servicios de cada promoción
+    response.forEach(promo => {
+      console.log(`Promoción ${promo.idPromocion}: ${promo.nombre} - Servicios:`, promo.servicios);
+    });
+
     this.internetPromos = response.filter(promo =>
-      promo.servicios.some(s => s.idServicio === 1)
+      promo.servicios && promo.servicios.some(s => s.idServicio === 1)
     );
     this.telefoniaPromos = response.filter(promo =>
-      promo.servicios.some(s => s.idServicio === 2)
+      promo.servicios && promo.servicios.some(s => s.idServicio === 2)
     );
     this.tvPromos = response.filter(promo =>
-      promo.servicios.some(s => s.idServicio === 3)
+      promo.servicios && promo.servicios.some(s => s.idServicio === 3)
     );
+
+    console.log('Internet promos:', this.internetPromos.length);
+    console.log('Telefonía promos:', this.telefoniaPromos.length);
+    console.log('TV promos:', this.tvPromos.length);
   });
 }
 
