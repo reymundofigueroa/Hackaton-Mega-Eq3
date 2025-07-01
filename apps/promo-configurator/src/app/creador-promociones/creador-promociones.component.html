@@ -69,20 +69,10 @@
 
                 <div class="card">
                     <p><strong>Servicios</strong></p>
-                    <label>
-                        <input type="checkbox" [checked]="servicioSeleccionado === 'TV'"
-                            (change)="seleccionarServicio('TV')" />
-                        TV
-                    </label>
-                    <label>
-                        <input type="checkbox" [checked]="servicioSeleccionado === 'Internet'"
-                            (change)="seleccionarServicio('Internet')" />
-                        Internet
-                    </label>
-                    <label>
-                        <input type="checkbox" [checked]="servicioSeleccionado === 'Telefonía'"
-                            (change)="seleccionarServicio('Telefonía')" />
-                        Telefonía
+                    <label *ngFor="let servicio of servicios">
+                        <input type="checkbox" [checked]="servicioSeleccionado === obtenerNombreCorto(servicio.nombre)"
+                            (change)="seleccionarServicio(obtenerNombreCorto(servicio.nombre))" />
+                        {{ obtenerNombreCorto(servicio.nombre) }}
                     </label>
                 </div>
 

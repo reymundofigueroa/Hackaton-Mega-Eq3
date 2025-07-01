@@ -6,12 +6,17 @@ export interface promoModel {
   fechaFin: string,
   tipoDescuento: string,
   valorDescuento: number,
-  servicios: [
-    {idServicio: number, nombre: string, descripcion: string, precioBaseActual: number,}
-  ]
+  servicios: servicioModel[]
   aplicaA: string,
   duracionMeses: number,
-  idServicios: (object)[]
+  idServicios?: any[]
+}
+
+export interface servicioModel {
+  idServicio: number,
+  nombre: string,
+  descripcion: string,
+  precioBaseActual: number
 }
 
 export interface clientModel {

@@ -195,11 +195,19 @@ export class CreadorPromocionesComponent implements OnInit {
     // Mapear el servicio seleccionado a un ID real
     let servicioId = 1; // Default
     if (this.servicioSeleccionado) {
-      const servicioEncontrado = this.servicios.find(s =>
-        s.nombre.toLowerCase().includes(this.servicioSeleccionado!.toLowerCase())
-      );
+      // Buscar el servicio basado en el nombre corto seleccionado
+      const servicioEncontrado = this.servicios.find(s => {
+        const nombreCorto = this.obtenerNombreCorto(s.nombre);
+        return nombreCorto === this.servicioSeleccionado;
+      });
+      
       if (servicioEncontrado) {
         servicioId = servicioEncontrado.idServicio;
+      } else {
+        // Si no encuentra coincidencia, mostrar error
+        const serviciosDisponibles = this.servicios.map(s => `${this.obtenerNombreCorto(s.nombre)} (${s.nombre})`).join(', ');
+        alert(`Error: No se encontró el servicio "${this.servicioSeleccionado}" en la base de datos. Servicios disponibles: ${serviciosDisponibles}`);
+        return;
       }
     }
 
@@ -249,8 +257,24 @@ export class CreadorPromocionesComponent implements OnInit {
       valorDescuento: valor_descuento,
       aplicaA: aplica_a,
       duracionMeses: duracion_meses,
+      idServicios: [servicioId],
       alcances
     };
+
+    console.log('Promoción a enviar:', promocion);
+    console.log('Servicio seleccionado:', this.servicioSeleccionado);
+    console.log('ID del servicio:', servicioId);
+
+    // Prueba temporal: enviar al endpoint de test
+    this.http.post('http://localhost:5267/api/Promociones/test-frontend', promocion)
+      .subscribe({
+        next: (res) => {
+          console.log('Respuesta del endpoint de test:', res);
+        },
+        error: (err) => {
+          console.error('Error en endpoint de test:', err);
+        }
+      });
 
     // Mostrar indicador de carga
     const botonGuardar = document.querySelector('.boton') as HTMLButtonElement;
@@ -269,17 +293,21 @@ export class CreadorPromocionesComponent implements OnInit {
           }
 
           // Mostrar mensaje de éxito
+          const servicioEncontrado = this.servicios.find(s => s.nombre === this.servicioSeleccionado);
+          const respuesta = res as any;
           const mensajeExito = `
             ✅ Promoción guardada exitosamente!
             
             📋 Detalles:
             • Nombre: ${this.nombre}
-            • Servicio: ${this.servicioSeleccionado}
+            • Servicio: ${this.servicioSeleccionado} (ID: ${servicioEncontrado?.idServicio || 'N/A'})
             • Alcance: ${this.estadoSeleccionado?.nombre}
             • Fecha inicio: ${this.fechaInicio}
             • Fecha fin: ${this.fechaFin}
+            • Servicios asociados: ${respuesta?.ServiciosAsociados || 0}
+            • Alcances creados: ${respuesta?.AlcancesCreados || 0}
             
-            🔗 ID de respuesta: ${res ? JSON.stringify(res) : 'N/A'}
+            🔗 ID de promoción: ${respuesta?.IdPromocion || 'N/A'}
           `;
 
           alert(mensajeExito);
@@ -338,6 +366,22 @@ export class CreadorPromocionesComponent implements OnInit {
     this.ciudadesFiltradas = [];
     this.coloniasFiltradas = [];
     this.sucursalesFiltradas = [];
+  }
+
+  obtenerNombreCorto(nombreCompleto: string): string {
+    // Normalizar el texto para manejar caracteres especiales
+    const nombreNormalizado = nombreCompleto.toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, ''); // Remover acentos
+    
+    if (nombreNormalizado.includes('internet')) {
+      return 'Internet';
+    } else if (nombreNormalizado.includes('tv') || nombreNormalizado.includes('television')) {
+      return 'TV';
+    } else if (nombreNormalizado.includes('telefonia') || nombreNormalizado.includes('telefono')) {
+      return 'Telefonía';
+    }
+    return nombreCompleto; // Si no coincide con ninguno, devuelve el nombre original
   }
 
   esFormularioInvalido(): boolean {

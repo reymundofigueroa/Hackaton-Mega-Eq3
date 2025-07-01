@@ -53,7 +53,7 @@ public partial class Promocione
     [InverseProperty("Promociones")]
     public virtual ICollection<Servicio> IdServicios { get; set; } = new List<Servicio>();
     */
-
+    [ForeignKey("IdServicio")]
     public virtual ICollection<Servicio> Servicios { get; set; } = new List<Servicio>();
 
 

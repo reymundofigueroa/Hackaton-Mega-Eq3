@@ -135,15 +135,13 @@ export class DebtCalculationComponent {
               const valor = promo ? promo.valorDescuento : 0;
               const duracionPromo = promo ? promo.duracionMeses : 0;
 
-              // Crear una entrada para cada servicio, con o sin promoción
-              const key = `${nombreServicio}-${tipo}`;
-              if (!agrupados[key]) {
-                agrupados[key] = {
-                  servicio: nombreServicio,
-                  tipo,
-                  items: []
-                };
-              }
+              // Clave única por servicio
+              const key = `${nombreServicio}-${tipo}-${servicio.idContratoServicio}`;
+              agrupados[key] = {
+                servicio: nombreServicio,
+                tipo,
+                items: []
+              };
 
               // Generar proyección para todos los meses del plazo
               const plazoReal = Math.max(plazoMeses, 12); // Siempre generar al menos 12 meses
@@ -183,19 +181,18 @@ export class DebtCalculationComponent {
 
         // Si no hay contratos o no se generó proyección, usar servicios contratados como fallback
         if (Object.keys(agrupados).length === 0 && this.servicios.length > 0) {
-          this.servicios.forEach(servicio => {
+          this.servicios.forEach((servicio, idx) => {
             const nombreServicio = servicio.servicio;
             const precioBase = servicio.precioContratado;
             const tipo = servicio.tipoDescuento || 'Sin promoción';
 
-            const key = `${nombreServicio}-${tipo}`;
-            if (!agrupados[key]) {
-              agrupados[key] = {
-                servicio: nombreServicio,
-                tipo,
-                items: []
-              };
-            }
+            // Clave única por servicio
+            const key = `${nombreServicio}-${tipo}-${idx}`;
+            agrupados[key] = {
+              servicio: nombreServicio,
+              tipo,
+              items: []
+            };
 
             // Generar proyección para 12 meses por defecto
             const fechaInicio = new Date();
@@ -233,6 +230,15 @@ export class DebtCalculationComponent {
           });
         }
 
+        // Ordenar los items de cada grupo por mes
+        Object.values(agrupados).forEach(grupo => {
+          grupo.items.sort((a, b) => {
+            const fechaA = new Date(a.desde);
+            const fechaB = new Date(b.desde);
+            return fechaA.getTime() - fechaB.getTime();
+          });
+        });
+
         this.proyeccionExpandida = Object.values(agrupados);
         this.proyeccionMensual = Object.entries(mensualAgrupado)
           .map(([mes, total]) => ({ mes, total }))
@@ -253,19 +259,18 @@ export class DebtCalculationComponent {
     const mensualAgrupado: { [mes: string]: number } = {};
 
     if (this.servicios.length > 0) {
-      this.servicios.forEach(servicio => {
+      this.servicios.forEach((servicio, idx) => {
         const nombreServicio = servicio.servicio;
         const precioBase = servicio.precioContratado;
         const tipo = servicio.tipoDescuento || 'Sin promoción';
 
-        const key = `${nombreServicio}-${tipo}`;
-        if (!agrupados[key]) {
-          agrupados[key] = {
-            servicio: nombreServicio,
-            tipo,
-            items: []
-          };
-        }
+        // Clave única por servicio
+        const key = `${nombreServicio}-${tipo}-${idx}`;
+        agrupados[key] = {
+          servicio: nombreServicio,
+          tipo,
+          items: []
+        };
 
         // Generar proyección para 12 meses
         const fechaInicio = new Date();
@@ -302,6 +307,15 @@ export class DebtCalculationComponent {
         }
       });
     }
+
+    // Ordenar los items de cada grupo por mes
+    Object.values(agrupados).forEach(grupo => {
+      grupo.items.sort((a, b) => {
+        const fechaA = new Date(a.desde);
+        const fechaB = new Date(b.desde);
+        return fechaA.getTime() - fechaB.getTime();
+      });
+    });
 
     this.proyeccionExpandida = Object.values(agrupados);
     this.proyeccionMensual = Object.entries(mensualAgrupado)

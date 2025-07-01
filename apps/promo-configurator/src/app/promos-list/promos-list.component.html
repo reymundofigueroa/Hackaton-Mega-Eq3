@@ -63,7 +63,13 @@
           aria-pressed="false"
         >
          <h3>{{ card.nombre }}</h3>
-      <h3>{{ card.idServicios }}</h3>
+      <p class="servicios-info">
+        <strong>Servicios:</strong> 
+        <span *ngFor="let servicio of card.servicios; let last = last">
+          {{ servicio.nombre }}{{ !last ? ', ' : '' }}
+        </span>
+        <span *ngIf="!card.servicios || card.servicios.length === 0">Sin servicios asignados</span>
+      </p>
       <h3>{{ card.descripcion }}</h3>
       <img src="./SVG/crear-promo.svg" alt="icono" />
         </div>
@@ -88,7 +94,13 @@
           aria-pressed="false"
         >
           <h3>{{ card.nombre }}</h3>
-      <h3>{{ card.idServicios }}</h3>
+      <p class="servicios-info">
+        <strong>Servicios:</strong> 
+        <span *ngFor="let servicio of card.servicios; let last = last">
+          {{ servicio.nombre }}{{ !last ? ', ' : '' }}
+        </span>
+        <span *ngIf="!card.servicios || card.servicios.length === 0">Sin servicios asignados</span>
+      </p>
       <h3>{{ card.descripcion }}</h3>
       <img src="./SVG/crear-promo.svg" alt="icono" />
         </div>

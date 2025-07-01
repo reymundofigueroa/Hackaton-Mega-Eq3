@@ -69,7 +69,8 @@
       <div *ngFor="let grupo of proyeccionExpandida" class="proyeccion-grupo">
         <details>
           <summary>
-            <strong>{{ grupo.servicio }}</strong> -
+            <strong>{{ grupo.servicio }}</strong>
+            -
             <span class="tipo-promocion" [class.con-promocion]="grupo.tipo !== 'Sin promoción'">
               {{ grupo.tipo }}
             </span>
