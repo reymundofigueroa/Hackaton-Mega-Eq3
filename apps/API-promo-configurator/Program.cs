@@ -35,7 +35,29 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    // Información personalizada del encabezado de Swagger
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "API Configurador de Promociones",
+        Version = "v1",
+        Description = "API para la gestión y configuración de promociones, servicios y contratos.",
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Name = "Equipo de desarrollo: Eduardo Antonio, Jesús Isaac, Luis Humberto, Reymundo Fernando",
+            Url = new Uri("https://github.com/reymundofigueroa/Hackaton-Mega-Eq3")
+        },
+        License = new Microsoft.OpenApi.Models.OpenApiLicense
+        {
+            Name = "MIT",
+            Url = new Uri("https://opensource.org/licenses/MIT")
+        }
+    });
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 // Politica del CORS
 builder.Services.AddCors(options =>

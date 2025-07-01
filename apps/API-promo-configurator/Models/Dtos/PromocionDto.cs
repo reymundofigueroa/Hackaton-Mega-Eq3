@@ -16,7 +16,7 @@ public class PromocionDto
     public int DuracionMeses { get; set; }
 
     // Para mostrar los servicios asociados 
-    public List<ServicioDto>? Servicios { get; set; } = new();
+    public List<ServicioDto> Servicios { get; set; } = new();
     
 
 }

@@ -26,12 +26,17 @@ public class PromocionRepository : IPromocionRepository
 
     public ICollection<Promocione> GetPromociones()
     {
-        return _db.Promociones.Include(p => p.IdServicios).OrderBy(p => p.Nombre).ToList();
+        return _db.Promociones
+                  .Include(p => p.Servicios)
+                  .OrderBy(p => p.Nombre)
+                  .ToList();
     }
 
     public Promocione? GetPromocion(int id)
     {
-        return _db.Promociones.Include(p => p.IdServicios).FirstOrDefault(p => p.IdPromocion == id);
+        return _db.Promociones
+                  .Include(p => p.Servicios)
+                  .FirstOrDefault(p => p.IdPromocion == id);
     }
 
     public bool CreatePromocion(Promocione promocion)

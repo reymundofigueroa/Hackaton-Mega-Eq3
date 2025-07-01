@@ -17,21 +17,42 @@ export class PromosListComponent implements OnInit {
 
   httpService = inject(GetPromosListService);
 
+  cards: promoModel[] = [];
+  internetPromos: promoModel[] = [];
+  telefoniaPromos: promoModel[] = [];
+  tvPromos: promoModel[] = [];
+
+  selectedFilter = 'todos';
+
+
   ngOnInit(): void {
-    this.httpService.getPromosList().subscribe((response: promoModel[]) => {
-      this.cards = response
-      console.log(response)
-    });
+  this.httpService.getPromosList().subscribe((response: promoModel[]) => {
+    this.cards = response;
+
+    this.internetPromos = response.filter(promo =>
+      promo.servicios.some(s => s.idServicio === 1)
+    );
+    this.telefoniaPromos = response.filter(promo =>
+      promo.servicios.some(s => s.idServicio === 2)
+    );
+    this.tvPromos = response.filter(promo =>
+      promo.servicios.some(s => s.idServicio === 3)
+    );
+  });
+}
+
+  onFilterChange(event: Event) {
+  const selectElement = event.target as HTMLSelectElement;
+  this.selectedFilter = selectElement.value;
+}
+
+
+  openModal(card: promoModel) {
+    this.selectedCard = card;
   }
 
-cards: promoModel[] = [];
+  closeModal() {
+    this.selectedCard = null;
 
-openModal(card: promoModel) {
-  this.selectedCard = card;
-}
-
-closeModal() {
-  this.selectedCard = null;
-
-}
+  }
 }

@@ -47,8 +47,15 @@ public class ContratoPromocionRepository : IContratoPromocionRepository
 
     public bool CreateContratoPromocion(ContratoPromocione contratoPromocion)
     {
+        if (contratoPromocion == null)
+        {
+            return false;
+        }
+
         _db.ContratoPromociones.Add(contratoPromocion);
+
         return Save();
+
     }
 
     public bool UpdateContratoPromocion(ContratoPromocione contratoPromocion)

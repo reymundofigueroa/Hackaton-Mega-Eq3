@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_promo_configurator.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de sucursales.
+    /// Permite consultar la lista de sucursales, obtener información de una sucursal específica y consultar información geográfica completa de las sucursales.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class SucursalesController : ControllerBase
@@ -23,6 +27,14 @@ namespace API_promo_configurator.Controllers
             _db = db;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todas las sucursales registradas.
+        /// </summary>
+        /// <remarks>
+        /// Retorna una lista de sucursales con información básica.
+        /// </remarks>
+        /// <response code="200">Retorna la lista de sucursales</response>
+        /// <response code="403">No autorizado para acceder a las sucursales</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,6 +45,13 @@ namespace API_promo_configurator.Controllers
             return Ok(sucursalesDto);
         }
 
+        /// <summary>
+        /// Obtiene una sucursal específica por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador de la sucursal</param>
+        /// <returns>Sucursal encontrada</returns>
+        /// <response code="200">Sucursal encontrada</response>
+        /// <response code="404">Sucursal no encontrada</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -44,6 +63,11 @@ namespace API_promo_configurator.Controllers
             return Ok(_mapper.Map<SucursalDto>(sucursal));
         }
 
+        /// <summary>
+        /// Obtiene la información geográfica completa de todas las sucursales, incluyendo colonias, ciudades, municipios y estados.
+        /// </summary>
+        /// <returns>Lista de sucursales con información geográfica detallada</returns>
+        /// <response code="200">Lista de sucursales con información completa encontrada</response>
         [HttpGet("info-completa")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetSucursalesInfo()

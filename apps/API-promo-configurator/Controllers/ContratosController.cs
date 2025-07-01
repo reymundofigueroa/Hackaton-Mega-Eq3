@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API_promo_configurator.Controllers
 {
+    /// <summary>
+    /// Controlador para la gestión de contratos y sus detalles asociados.
+    /// Permite consultar contratos, detalles, y contratos por suscriptor.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ContratosController : ControllerBase
@@ -23,6 +27,14 @@ namespace API_promo_configurator.Controllers
             _db = db;
         }
 
+        /// <summary>
+        /// Obtiene la lista de todos los contratos registrados.
+        /// </summary>
+        /// <remarks>
+        /// Retorna una lista de contratos con información básica.
+        /// </remarks>
+        /// <response code="200">Retorna la lista de contratos</response>
+        /// <response code="403">No autorizado para acceder a los contratos</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -33,6 +45,13 @@ namespace API_promo_configurator.Controllers
             return Ok(contratosDto);
         }
 
+        /// <summary>
+        /// Obtiene un contrato específico por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del contrato</param>
+        /// <returns>Contrato encontrado</returns>
+        /// <response code="200">Contrato encontrado</response>
+        /// <response code="404">Contrato no encontrado</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -44,6 +63,13 @@ namespace API_promo_configurator.Controllers
             return Ok(_mapper.Map<ContratoDto>(contrato));
         }
 
+        /// <summary>
+        /// Obtiene el detalle de un contrato específico por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del contrato</param>
+        /// <returns>Detalle del contrato</returns>
+        /// <response code="200">Detalle del contrato encontrado</response>
+        /// <response code="404">Contrato no encontrado</response>
         [HttpGet("detalle/{id:int}", Name = "GetContratoDetalle")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -60,6 +86,12 @@ namespace API_promo_configurator.Controllers
             return Ok(contratoDto);
         }
 
+        /// <summary>
+        /// Obtiene todos los contratos asociados a un suscriptor específico.
+        /// </summary>
+        /// <param name="idSuscriptor">Identificador del suscriptor</param>
+        /// <returns>Lista de contratos con servicios y promociones asociados</returns>
+        /// <response code="200">Lista de contratos encontrada</response>
         [HttpGet("suscriptor/{idSuscriptor}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetContratosPorSuscriptor(int idSuscriptor)
