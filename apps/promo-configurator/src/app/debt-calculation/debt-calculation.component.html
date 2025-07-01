@@ -1,3 +1,12 @@
+<header>
+  <div>
+      <app-nav-bar></app-nav-bar>
+  </div>
+  <div class="title-container">
+      <h1>Cálculo de deuda</h1>
+  </div>
+</header>
+
 <div class="busqueda-container">
   <h2>Búsqueda de Clientes</h2>
 
@@ -8,20 +17,17 @@
 
   <div class="estado">
     <p *ngIf="buscando"> Buscando...</p>
-    <p *ngIf="!buscando && resultados.length === 0 && termino">
-      ❌ No se encontraron resultados.
-    </p>
+    <p *ngIf="!buscando && resultados.length === 0 && termino">❌ No se encontraron resultados.</p>
   </div>
 
-<ul class="resultados" *ngIf="resultados.length > 0">
-  <li *ngFor="let s of resultados" (click)="seleccionarSuscriptor(s)">
-    <h4>{{ s.nombre }} {{ s.apellidoPaterno }} {{ s.apellidoMaterno || '' }}</h4>
-    <p><strong>Email:</strong> {{ s.email }}</p>
-    <p><strong>Teléfono:</strong> {{ s.telefonoContacto }}</p>
-    <p><strong>RFC:</strong> {{ s.rfc || 'No disponible' }}</p>
-  </li>
-</ul>
-
+  <ul class="resultados" *ngIf="resultados.length > 0">
+    <li *ngFor="let s of resultados" (click)="seleccionarSuscriptor(s)">
+      <h4>{{ s.nombre }} {{ s.apellidoPaterno }} {{ s.apellidoMaterno || '' }}</h4>
+      <p><strong>Email:</strong> {{ s.email }}</p>
+      <p><strong>Teléfono:</strong> {{ s.telefonoContacto }}</p>
+      <p><strong>RFC:</strong> {{ s.rfc || 'No disponible' }}</p>
+    </li>
+  </ul>
 
   <!-- Servicios contratados -->
   <div *ngIf="suscriptorSeleccionado">
@@ -50,9 +56,58 @@
       </tbody>
     </table>
 
-    <p *ngIf="!cargandoServicios && servicios.length === 0">
-      ❗ Este cliente no tiene servicios contratados.
-    </p>
+    <p *ngIf="!cargandoServicios && servicios.length === 0">❗ Este cliente no tiene servicios contratados.</p>
+
+    <button class="proyeccion-btn" (click)="mostrarProyeccion()">Mostrar proyección</button>
   </div>
 
+  <!-- Proyección -->
+  <div *ngIf="mostrandoProyeccion" class="proyeccion-container">
+    <h3>Proyección detallada por servicio</h3>
+
+    <div *ngIf="proyeccionExpandida.length > 0">
+      <div *ngFor="let grupo of proyeccionExpandida" class="proyeccion-grupo">
+        <details>
+          <summary>
+            <strong>{{ grupo.servicio }}</strong> -
+            <span class="tipo-promocion" [class.con-promocion]="grupo.tipo !== 'Sin promoción'">
+              {{ grupo.tipo }}
+            </span>
+          </summary>
+          <table class="tabla-proyeccion">
+            <thead>
+              <tr>
+                <th>Mes</th>
+                <th>Cantidad</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of grupo.items" [class.con-descuento]="grupo.tipo !== 'Sin promoción'"
+                [class.mes-gratis]="item.cantidad === 0 && grupo.tipo === 'MESES_GRATIS'">
+                <td>{{ item.mes }}</td>
+                <td>
+                  <span *ngIf="item.cantidad === 0 && grupo.tipo === 'MESES_GRATIS'" class="gratis-texto">
+                    GRATIS
+                  </span>
+                  <span *ngIf="!(item.cantidad === 0 && grupo.tipo === 'MESES_GRATIS')">
+                    {{ item.cantidad | currency }}
+                  </span>
+                </td>
+                <td>{{ item.desde }}</td>
+                <td>{{ item.hasta }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
+      </div>
+    </div>
+
+    <div *ngIf="proyeccionExpandida.length === 0" class="sin-proyeccion">
+      <p>No se encontraron datos de proyección para este cliente.</p>
+      <p>Esto puede deberse a que no hay contratos activos o servicios contratados.</p>
+    </div>
+
+  </div>
 </div>

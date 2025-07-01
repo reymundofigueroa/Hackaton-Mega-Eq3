@@ -51,7 +51,9 @@ namespace API_promo_configurator.Controllers
                 _db.Promociones.Add(promocion);
                 await _db.SaveChangesAsync(); // Esto genera el ID
                 
-                // 2. Crear servicios asociados (solo si se envían)
+                // 2. Crear servicios asociados (temporalmente deshabilitado)
+                // TODO: Restaurar cuando se resuelva el problema de mapeo
+                /*
                 if (dto.IdServicios != null && dto.IdServicios.Any())
                 {
                     var servicios = await _db.Servicios
@@ -70,6 +72,7 @@ namespace API_promo_configurator.Controllers
                         promocion.IdServicios.Add(servicio);
                     }
                 }
+                */
                 
                 // 3. Crear alcances (solo si se envían)
                 if (dto.Alcances != null && dto.Alcances.Any())
@@ -93,7 +96,7 @@ namespace API_promo_configurator.Controllers
                 return CreatedAtAction(nameof(GetPromociones), new { id = promocion.IdPromocion }, new { 
                     IdPromocion = promocion.IdPromocion,
                     Mensaje = "Promoción creada exitosamente",
-                    ServiciosAsociados = dto.IdServicios?.Count ?? 0,
+                    ServiciosAsociados = 0, // Temporalmente 0
                     AlcancesCreados = dto.Alcances?.Count ?? 0
                 });
             }
