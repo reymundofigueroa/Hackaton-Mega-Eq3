@@ -48,17 +48,17 @@ BEGIN TRY
     PRINT '--- FIN: LIMPIEZA DE DATOS EXISTENTES ---';
 END TRY
 BEGIN CATCH
-    PRINT 'Ocurri� un error durante la limpieza de datos.';
-    PRINT 'Error N�mero: ' + CAST(ERROR_NUMBER() AS VARCHAR(10));
+    PRINT 'Ocurrio un error durante la limpieza de datos.';
+    PRINT 'Error Numero: ' + CAST(ERROR_NUMBER() AS VARCHAR(10));
     PRINT 'Error Mensaje: ' + ERROR_MESSAGE();
 END CATCH;
 GO
 
 -- ====================================================
--- Bloque 2: Inserci�n de datos de prueba
+-- Bloque 2: Insercion de datos de prueba
 -- ====================================================
 BEGIN TRY
-    PRINT '--- INICIO: INSERCI�N DE DATOS ---';
+    PRINT '--- INICIO: INSERCION DE DATOS ---';
 
     -- Variables para IDs
     DECLARE
@@ -73,14 +73,14 @@ BEGIN TRY
       @id_sub1 INT, @id_sub2 INT, @id_sub3 INT, @id_sub4 INT, @id_sub5 INT, @id_sub6 INT, @id_sub7 INT, @id_sub8 INT, @id_sub9 INT, @id_sub10 INT, @id_sub11 INT, @id_sub12 INT,
       @id_contrato1 INT, @id_contrato2 INT, @id_contrato3 INT, @id_contrato4 INT, @id_contrato5 INT, @id_contrato6 INT, @id_contrato7 INT, @id_contrato8 INT, @id_contrato9 INT, @id_contrato10 INT, @id_contrato11 INT, @id_contrato12 INT;
 
-    -- 1. Geograf�a
-    INSERT INTO Estados (nombre) VALUES ('Jalisco'), ('Nuevo Le�n'), ('Ciudad de M�xico'), ('Quer�taro'), ('Yucat�n');
+    -- 1. Geografia
+    INSERT INTO Estados (nombre) VALUES ('Jalisco'), ('Nuevo Leon'), ('Ciudad de Mexico'), ('Queretaro'), ('Yucatan');
     SET @id_estado1 = 1; SET @id_estado2 = 2; SET @id_estado3 = 3; SET @id_estado4 = 4; SET @id_estado5 = 5;
     
-    INSERT INTO Municipios (nombre, id_estado) VALUES ('Guadalajara',@id_estado1), ('Monterrey',@id_estado2), ('Coyoac�n',@id_estado3), ('Quer�taro', @id_estado4), ('M�rida', @id_estado5);
+    INSERT INTO Municipios (nombre, id_estado) VALUES ('Guadalajara',@id_estado1), ('Monterrey',@id_estado2), ('Coyoacan',@id_estado3), ('Queretaro', @id_estado4), ('Merida', @id_estado5);
     SET @id_mun1 = 1; SET @id_mun2 = 2; SET @id_mun3 = 3; SET @id_mun4 = 4; SET @id_mun5 = 5;
 
-    INSERT INTO Ciudades (nombre, id_municipio) VALUES ('Zapopan',@id_mun1), ('San Pedro Garza Garc�a',@id_mun2), ('Ciudad de M�xico',@id_mun3), ('Quer�taro', @id_mun4), ('M�rida', @id_mun5);
+    INSERT INTO Ciudades (nombre, id_municipio) VALUES ('Zapopan',@id_mun1), ('San Pedro Garza Garcia',@id_mun2), ('Ciudad de Mexico',@id_mun3), ('Queretaro', @id_mun4), ('Merida', @id_mun5);
     SET @id_ciud1 = 1; SET @id_ciud2 = 2; SET @id_ciud3 = 3; SET @id_ciud4 = 4; SET @id_ciud5 = 5;
 
     INSERT INTO Colonias (nombre, codigo_postal, id_ciudad) VALUES ('Chapalita', '45010', @id_ciud1), ('Valle Oriente','66269', @id_ciud2), ('Del Carmen', '04100', @id_ciud3), ('Juriquilla', '76226', @id_ciud4), ('Altabrisa', '97130', @id_ciud5);
@@ -88,12 +88,12 @@ BEGIN TRY
     PRINT '5 estados, municipios, ciudades y colonias insertados.';
 
     -- 2. Servicios
-    INSERT INTO Servicios (nombre, descripcion, precio_base_actual) VALUES ('Internet 100 Mbps', 'Internet residencial 100 Mbps', 650.00), ('Telefon�a Ilimitada', 'Llamadas nacionales ilimitadas', 200.00), ('TV HD Interactiva', 'M�s de 80 canales en HD', 300.00);
+    INSERT INTO Servicios (nombre, descripcion, precio_base_actual) VALUES ('Internet 100 Mbps', 'Internet residencial 100 Mbps', 650.00), ('Telefonia Ilimitada', 'Llamadas nacionales ilimitadas', 200.00), ('TV HD Interactiva', 'Mas de 80 canales en HD', 300.00);
     SET @id_serv_internet = 1; SET @id_serv_telefonia = 2; SET @id_serv_tv = 3;
     PRINT '3 servicios insertados.';
 
     -- 3. Promociones
-    INSERT INTO Promociones (nombre, descripcion, fecha_inicio, fecha_fin, tipo_descuento, valor_descuento, aplica_a, duracion_meses) VALUES ('Promo 10% Mensualidad','10% de descuento en mensualidad','2025-01-01','2025-12-31','PORCENTAJE',0.10,'MENSUALIDAD',6), ('Descarga $200 Instalaci�n','200 pesos de descuento','2025-03-01','2025-09-30','MONTO_FIJO',200.00,'INSTALACION',1), ('2 Meses Gratis','Dos meses de servicio gratis','2025-06-01','2026-06-01','MESES_GRATIS',2,'MENSUALIDAD',2), ('Promo Zona Coyoac�n','15% para Del Carmen','2025-05-01','2025-11-30','PORCENTAJE',0.15,'MENSUALIDAD',6), ('Promo Verano TV','20% en tu paquete de TV por 3 meses','2025-06-20','2025-08-20','PORCENTAJE',0.20,'MENSUALIDAD',3), ('Promo Lealtad Total','Descuento especial para clientes leales','2025-01-01','2025-12-31','MONTO_FIJO',50.00,'MENSUALIDAD',12);
+    INSERT INTO Promociones (nombre, descripcion, fecha_inicio, fecha_fin, tipo_descuento, valor_descuento, aplica_a, duracion_meses) VALUES ('Promo 10% Mensualidad','10% de descuento en mensualidad','2025-01-01','2025-12-31','PORCENTAJE',10,'MENSUALIDAD',6), ('Descarga $200 Instalacion','200 pesos de descuento','2025-03-01','2025-09-30','MONTO_FIJO',200.00,'INSTALACION',1), ('2 Meses Gratis','Dos meses de servicio gratis','2025-06-01','2026-06-01','MESES_GRATIS',2,'MENSUALIDAD',2), ('Promo Zona Coyoacan','15% para Del Carmen','2025-05-01','2025-11-30','PORCENTAJE',15,'MENSUALIDAD',6), ('Promo Verano TV','20% en tu paquete de TV por 3 meses','2025-06-20','2025-08-20','PORCENTAJE',20,'MENSUALIDAD',3), ('Promo Lealtad Total','Descuento especial para clientes leales','2025-01-01','2025-12-31','MONTO_FIJO',50.00,'MENSUALIDAD',12);
     SET @id_prom_pct = 1; SET @id_prom_fijo = 2; SET @id_prom_meses = 3; SET @id_prom_geo = 4; SET @id_prom_verano = 5; SET @id_prom_lealtad = 6;
     PRINT '6 promociones insertadas.';
 
@@ -103,7 +103,7 @@ BEGIN TRY
 
     -- 5. Domicilios y Sucursales (AMPLIADO)
     INSERT INTO Domicilios (calle, numero_exterior, id_colonia) VALUES 
-      ('Av. Patria','1234',@id_col1), ('Blvd. D�az Ordaz','4321',@id_col2), ('Calle Falsa','321',@id_col3), ('Av. Miguel �ngel de Quevedo','150',@id_col3), ('Blvd. de la Campana','500',@id_col4), ('Calle 20','311',@id_col5),
+      ('Av. Patria','1234',@id_col1), ('Blvd. D�az Ordaz','4321',@id_col2), ('Calle Falsa','321',@id_col3), ('Av. Miguel angel de Quevedo','150',@id_col3), ('Blvd. de la Campana','500',@id_col4), ('Calle 20','311',@id_col5),
       -- (6 Domicilios Adicionales)
       ('Paseo de la Reforma', '222', @id_col3), ('Av. L�zaro C�rdenas', '2305', @id_col2), ('Calle Hidalgo', '56', @id_col1), ('Circuito Juriquilla', '1030', @id_col4), ('Calle 60', '455', @id_col5), ('Av. de los Insurgentes', '2021', @id_col3);
     SET @id_domic1=1; SET @id_domic2=2; SET @id_domic3=3; SET @id_domic4=4; SET @id_domic5=5; SET @id_domic6=6; SET @id_domic7=7; SET @id_domic8=8; SET @id_domic9=9; SET @id_domic10=10; SET @id_domic11=11; SET @id_domic12=12;
@@ -118,9 +118,9 @@ BEGIN TRY
 
     -- 7. Suscriptores y Contratos (AMPLIADO)
     INSERT INTO Suscriptores (nombre,apellido_paterno,rfc,email,telefono_contacto,id_domicilio) VALUES 
-      ('Luis','P�rez','PEGL850101ABC','luis.perez@mail.com','33-1111-2222',@id_domic1), ('Mar�a','L�pez','LOML900202DEF','maria.lopez@mail.com','81-3333-4444',@id_domic2), ('Carlos','Ram�rez','CARR950303GHI','carlos.ramirez@mail.com','55-5555-6666',@id_domic3), ('Sof�a','Herrera','SOHO970404JKL','sofia.herrera@mail.com','55-7777-8888',@id_domic4), ('Ana','Garc�a','GAAA920505MNO','ana.garcia@mail.com','44-2999-8888',@id_domic5), ('David','Mart�nez','MADM880606PQR','david.martinez@mail.com','99-9111-2222',@id_domic6),
+      ('Luis','Perez','PEGL850101ABC','luis.perez@mail.com','33-1111-2222',@id_domic1), ('Maria','Lopez','LOML900202DEF','maria.lopez@mail.com','81-3333-4444',@id_domic2), ('Carlos','Ramirez','CARR950303GHI','carlos.ramirez@mail.com','55-5555-6666',@id_domic3), ('Sofia','Herrera','SOHO970404JKL','sofia.herrera@mail.com','55-7777-8888',@id_domic4), ('Ana','Garcia','GAAA920505MNO','ana.garcia@mail.com','44-2999-8888',@id_domic5), ('David','Martinez','MADM880606PQR','david.martinez@mail.com','99-9111-2222',@id_domic6),
       -- (6 Suscriptores Adicionales)
-      ('Laura','S�nchez','SALL910707STU','laura.sanchez@mail.com','55-1212-3434',@id_domic7), ('Jorge','G�mez','GOFJ890808VWX','jorge.gomez@mail.com','81-3434-5656',@id_domic8), ('Patricia','Flores','FLOP930909YZA','patricia.flores@mail.com','33-5656-7878',@id_domic9), ('Miguel','Rojas','ROMM941010BCD','miguel.rojas@mail.com','44-2323-4545',@id_domic10), ('Ver�nica','Cruz','CRUV961111EFG','veronica.cruz@mail.com','99-9595-6767',@id_domic11), ('Ricardo','Mora','MORR871212HIJ','ricardo.mora@mail.com','55-6767-8989',@id_domic12);
+      ('Laura','Sanchez','SALL910707STU','laura.sanchez@mail.com','55-1212-3434',@id_domic7), ('Jorge','Gomez','GOFJ890808VWX','jorge.gomez@mail.com','81-3434-5656',@id_domic8), ('Patricia','Flores','FLOP930909YZA','patricia.flores@mail.com','33-5656-7878',@id_domic9), ('Miguel','Rojas','ROMM941010BCD','miguel.rojas@mail.com','44-2323-4545',@id_domic10), ('Veronica','Cruz','CRUV961111EFG','veronica.cruz@mail.com','99-9595-6767',@id_domic11), ('Ricardo','Mora','MORR871212HIJ','ricardo.mora@mail.com','55-6767-8989',@id_domic12);
     SET @id_sub1=1; SET @id_sub2=2; SET @id_sub3=3; SET @id_sub4=4; SET @id_sub5=5; SET @id_sub6=6; SET @id_sub7=7; SET @id_sub8=8; SET @id_sub9=9; SET @id_sub10=10; SET @id_sub11=11; SET @id_sub12=12;
 
     INSERT INTO Contratos (id_suscriptor,id_sucursal,fecha_contratacion,plazo_forzoso_meses,estado) VALUES 
@@ -137,11 +137,11 @@ BEGIN TRY
       (@id_contrato7, @id_serv_tv, 300.00), (@id_contrato8, @id_serv_internet, 650.00), (@id_contrato9, @id_serv_telefonia, 200.00), (@id_contrato10, @id_serv_tv, 300.00), (@id_contrato11, @id_serv_internet, 650.00), (@id_contrato12, @id_serv_telefonia, 200.00);
     PRINT 'Contrato_Servicios insertados (1 servicio por contrato).';
 
-    -- 9. Aplicaci�n de promociones a contratos
+    -- 9. Aplicacion de promociones a contratos
     INSERT INTO Contrato_Promociones (id_contrato,id_promocion,fecha_aplicacion) VALUES (@id_contrato1,@id_prom_pct,'2025-01-15'), (@id_contrato2,@id_prom_fijo,'2025-03-20'), (@id_contrato3,@id_prom_meses,'2025-06-05'), (@id_contrato4,@id_prom_geo,'2025-05-10'), (@id_contrato5,@id_prom_verano,'2025-06-25');
     PRINT 'Contrato_Promociones insertados (solo para los primeros 5 contratos).';
 
-    -- 10. Alcance geogr�fico
+    -- 10. Alcance geografico
     INSERT INTO Promocion_Alcance (id_promocion,id_colonia) VALUES (@id_prom_geo, @id_col3);
     PRINT 'Promocion_Alcance insertado.';
 
@@ -154,10 +154,10 @@ BEGIN TRY
         (@id_contrato1, 'Mensualidad Jun 2025', 585.00, 0.00,  1170.00),
         (@id_contrato1, 'Pago parcial',           0.00, 600.00,   570.00),
 
-        -- Historial Contrato 2 (Mar�a, TV $300, Promo Desc. Instalaci�n)
-        (@id_contrato2, 'Cargo por Instalaci�n',  800.00, 0.00,   800.00), 
-        (@id_contrato2, 'Abono por Promo Instalaci�n', 0.00, 200.00, 600.00),
-        (@id_contrato2, 'Pago de Instalaci�n',      0.00, 600.00,     0.00),
+        -- Historial Contrato 2 (Maria, TV $300, Promo Desc. Instalaci�n)
+        (@id_contrato2, 'Cargo por Instalacion',  800.00, 0.00,   800.00), 
+        (@id_contrato2, 'Abono por Promo Instalacion', 0.00, 200.00, 600.00),
+        (@id_contrato2, 'Pago de Instalacion',      0.00, 600.00,     0.00),
         (@id_contrato2, 'Mensualidad May 2025',   300.00, 0.00,   300.00),
         (@id_contrato2, 'Pago con efectivo',        0.00, 300.00,     0.00),
         (@id_contrato2, 'Mensualidad Jun 2025',   300.00, 0.00,   300.00),
@@ -169,7 +169,7 @@ BEGIN TRY
         (@id_contrato3, 'Abono por Promo Mes Gratis',            0.00, 650.00,   0.00),
         (@id_contrato3, 'Mensualidad Ago 2025',          650.00, 0.00, 650.00),
         
-        -- Historial Contrato 4 (Sof�a, Internet $650, Promo Geo 15% -> $552.50/mes)
+        -- Historial Contrato 4 (Sofia, Internet $650, Promo Geo 15% -> $552.50/mes)
         (@id_contrato4, 'Mensualidad May 2025', 552.50, 0.00, 552.50),
         (@id_contrato4, 'Pago puntual',           0.00, 552.50,   0.00),
         (@id_contrato4, 'Mensualidad Jun 2025', 552.50, 0.00, 552.50),
@@ -178,11 +178,11 @@ BEGIN TRY
         (@id_contrato5, 'Mensualidad Jul 2025', 240.00, 0.00, 240.00);
     PRINT 'Movimientos_Cuenta insertados con historial ampliado.';
 
-    PRINT '--- FIN: INSERCI�N DE DATOS COMPLETADA ---';
+    PRINT '--- FIN: INSERCION DE DATOS COMPLETADA ---';
 END TRY
 BEGIN CATCH
-    PRINT 'Ocurri� un error durante la inserci�n de datos.';
-    PRINT 'Error N�mero: ' + CAST(ERROR_NUMBER() AS VARCHAR(10));
+    PRINT 'Ocurrio un error durante la insercion de datos.';
+    PRINT 'Error Numero: ' + CAST(ERROR_NUMBER() AS VARCHAR(10));
     PRINT 'Error Mensaje: ' + ERROR_MESSAGE();
 END CATCH;
 GO
