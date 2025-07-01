@@ -71,4 +71,12 @@
   <div class="submitButton-container">
     <button (click)="assignPromo(this.clientSelected?.idSuscriptor!, this.promoSelected?.idPromocion!)">Asignar</button>
   </div>
+
+  <div class="modal-backdrop" *ngIf="showSuccessModal">
+  <div class="modal">
+    <h2>🎉 ¡Asignación exitosa!</h2>
+    <p>La promoción fue asignada correctamente al cliente.</p>
+    <button (click)="closeModal()">Cerrar</button>
+  </div>
+</div>
 </section>

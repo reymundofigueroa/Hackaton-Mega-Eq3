@@ -19,6 +19,8 @@ export class AssignPromotionsComponent implements OnInit {
   getClientsService = inject(GetClientsListService);
   postClientToPromo = inject(AssignPromoToClientService)
 
+  // Modal de susses
+  showSuccessModal = false;
   // estados
   clienteSearch = '';
   promoSearch = '';
@@ -94,7 +96,9 @@ export class AssignPromotionsComponent implements OnInit {
           this.customerData = data;
           this.updatePromociones();
         });
-
+      if (this.promoSelected) {
+        this.selectPromo(this.promoSelected);
+      }
     }
   }
 
@@ -102,15 +106,26 @@ export class AssignPromotionsComponent implements OnInit {
     this.promoSelected = this.promoSelected === p ? null : p;
   }
 
-  assignPromo(customerId: number, promoId: number){
+  assignPromo(customerId: number, promoId: number) {
     this.postClientToPromo.assignPromoToCustomer(customerId, promoId).subscribe({
       next: (response) => {
         console.log('Promoción asignada', response)
+        this.showSuccessModal = true;
       },
       error: (error) => {
         console.error('Error al asignar la promoción', error)
       }
     })
+  }
+
+  closeModal() {
+    this.showSuccessModal = false;
+    if (this.promoSelected) {
+        this.selectPromo(this.promoSelected);
+      }
+    if (this.clientSelected) {
+        this.selectClient(this.clientSelected);
+      }
   }
 
 }
