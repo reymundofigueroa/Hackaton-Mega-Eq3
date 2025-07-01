@@ -64,11 +64,4 @@ API RESTful para la gestión de promociones, contratos, suscriptores y servicios
 - `POST /api/contratoPromociones`  
   Asigna una promoción a un contrato existente.
 
-#### Ejemplo de `POST /api/contratoPromociones`
-
-```json
-{
-  "idContrato": 1,
-  "idPromocion": 2
-}
 
