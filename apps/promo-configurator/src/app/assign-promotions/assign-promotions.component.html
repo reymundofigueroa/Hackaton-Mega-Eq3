@@ -1,1 +1,82 @@
-<p>assign-promotions works!</p>
+<section class="main-section">
+  <header>
+    <div>
+      <app-nav-bar></app-nav-bar>
+    </div>
+    <div class="title-container">
+      <h1>Asignar promociones</h1>
+    </div>
+  </header>
+
+  <section class="cards-container">
+    <!-- CLIENTES -->
+    <article>
+      <h2>Clientes</h2>
+      <div class="card">
+        <div class="search-container">
+          <input
+            type="search"
+            [(ngModel)]="clienteSearch"
+            placeholder="🔍 Buscar cliente"
+          />
+          <!-- Si quieres disparar algo al click, podrías llamar a otro método -->
+          <button (click)="null">Vamos</button>
+        </div>
+        <div class="scroll-bar">
+          <ul>
+            <li
+              *ngFor="let client of clientesFiltrados()"
+              (click)="selectClient(client)"
+              (keyup.enter)="selectClient(client)"
+              tabindex="0"
+              [class.selected]="client === clientSelected"
+            >
+              Contrato: {{ client.idSuscriptor }} – {{ client.nombre }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROMOCIONES -->
+    <article>
+      <h2>Promociones</h2>
+      <div class="card">
+        <div class="search-container">
+          <input
+            type="search"
+            [(ngModel)]="promoSearch"
+            placeholder="🔍 Buscar promoción"
+            (ngModelChange)="updatePromociones()"
+          />
+          <button (click)="updatePromociones()">Vamos</button>
+        </div>
+        <div class="scroll-bar">
+          <ul>
+            <li
+              *ngFor="let promo of promocionesDisponibles"
+              (click)="selectPromo(promo)"
+              (keyup.enter)="selectPromo(promo)"
+              tabindex="0"
+              [class.selected]="promo === promoSelected"
+            >
+              Promoción Id: {{ promo.idPromocion }} – {{ promo.nombre }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <div class="submitButton-container">
+    <button (click)="assignPromo(this.clientSelected?.idSuscriptor!, this.promoSelected?.idPromocion!)">Asignar</button>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="showSuccessModal">
+  <div class="modal">
+    <h2>🎉 ¡Asignación exitosa!</h2>
+    <p>La promoción fue asignada correctamente al cliente.</p>
+    <button (click)="closeModal()">Cerrar</button>
+  </div>
+</div>
+</section>

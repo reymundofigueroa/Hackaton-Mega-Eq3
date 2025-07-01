@@ -1,0 +1,31 @@
+## Build artifacts
+bin/
+obj/
+
+# apps/API-promo-configurator
+/apps/API-promo-configurator/bin/
+/apps/API-promo-configurator/obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio cache
+.vs/
+
+## JetBrains Rider
+.idea/
+
+## Logs and temp files
+*.log
+*.tmp
+
+## System files
+.DS_Store
+Thumbs.db
+
+## Others
+*.ncrunch*
+*.vscode/

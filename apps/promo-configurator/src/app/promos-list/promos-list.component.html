@@ -1,7 +1,7 @@
 <Section class="main-section">
   <header>
     <div>
-      <nav></nav>
+      <app-nav-bar></app-nav-bar>
     </div>
 
     <div class="title-container">
@@ -12,7 +12,7 @@
   <section class="cards-section">
     <div class="dropDownList-container">
       <h2>Filtrar por:</h2>
-      <select name="servicios" id="servicios">
+      <select name="servicios" id="servicios" (change)="onFilterChange($event)">
         <option value="todos">Todos</option>
         <option value="internet">Internet</option>
         <option value="telefonia">Telefonía</option>
@@ -20,72 +20,94 @@
       </select>
     </div>
 
-     <article class="categoryCards-container">
+    <article
+      class="categoryCards-container"
+      *ngIf="selectedFilter === 'todos' || selectedFilter === 'internet'"
+    >
       <h3 class="category-title">Internet:</h3>
       <div class="cards-container">
         <div
           class="card"
-          *ngFor="let card of cards"
-          tabindex="0"
+          *ngFor="let card of internetPromos"
           (click)="openModal(card)"
+          tabindex="0"
           (keyup)="
             ($event.key === 'Enter' || $event.key === ' ') && openModal(card)
           "
           role="button"
           aria-pressed="false"
         >
-          <h3>{{ card.title }}</h3>
-          <h3>{{ card.type }}</h3>
-          <h3>{{ card.discount }}</h3>
-          <img src="./SVG/crear-promo.svg" alt="icono" />
+          <h3>{{ card.nombre }}</h3>
+      <h3>{{ card.idServicios }}</h3>
+      <h3>{{ card.descripcion }}</h3>
+      <img src="./SVG/crear-promo.svg" alt="icono" />
         </div>
       </div>
     </article>
 
-    <article class="categoryCards-container">
+    <article
+      class="categoryCards-container"
+      *ngIf="selectedFilter === 'todos' || selectedFilter === 'telefonia'"
+    >
       <h3 class="category-title">Telefonía:</h3>
       <div class="cards-container">
         <div
           class="card"
-          *ngFor="let card of cards"
-          tabindex="0"
+          *ngFor="let card of telefoniaPromos"
           (click)="openModal(card)"
+          tabindex="0"
           (keyup)="
             ($event.key === 'Enter' || $event.key === ' ') && openModal(card)
           "
           role="button"
           aria-pressed="false"
         >
-          <h3>{{ card.title }}</h3>
-          <h3>{{ card.type }}</h3>
-          <h3>{{ card.discount }}</h3>
-          <img src="./SVG/crear-promo.svg" alt="icono" />
+         <h3>{{ card.nombre }}</h3>
+      <p class="servicios-info">
+        <strong>Servicios:</strong> 
+        <span *ngFor="let servicio of card.servicios; let last = last">
+          {{ servicio.nombre }}{{ !last ? ', ' : '' }}
+        </span>
+        <span *ngIf="!card.servicios || card.servicios.length === 0">Sin servicios asignados</span>
+      </p>
+      <h3>{{ card.descripcion }}</h3>
+      <img src="./SVG/crear-promo.svg" alt="icono" />
         </div>
       </div>
     </article>
 
-  <article class="categoryCards-container">
-      <h3 class="category-title">TV Por cable:</h3>
+    <article
+      class="categoryCards-container"
+      *ngIf="selectedFilter === 'todos' || selectedFilter === 'tv-cable'"
+    >
+      <h3 class="category-title">TV por Cable:</h3>
       <div class="cards-container">
         <div
           class="card"
-          *ngFor="let card of cards"
-          tabindex="0"
+          *ngFor="let card of tvPromos"
           (click)="openModal(card)"
+          tabindex="0"
           (keyup)="
             ($event.key === 'Enter' || $event.key === ' ') && openModal(card)
           "
           role="button"
           aria-pressed="false"
         >
-          <h3>{{ card.title }}</h3>
-          <h3>{{ card.type }}</h3>
-          <h3>{{ card.discount }}</h3>
-          <img src="./SVG/crear-promo.svg" alt="icono" />
+          <h3>{{ card.nombre }}</h3>
+      <p class="servicios-info">
+        <strong>Servicios:</strong> 
+        <span *ngFor="let servicio of card.servicios; let last = last">
+          {{ servicio.nombre }}{{ !last ? ', ' : '' }}
+        </span>
+        <span *ngIf="!card.servicios || card.servicios.length === 0">Sin servicios asignados</span>
+      </p>
+      <h3>{{ card.descripcion }}</h3>
+      <img src="./SVG/crear-promo.svg" alt="icono" />
         </div>
       </div>
     </article>
   </section>
+
   <div
     class="modal-backdrop"
     *ngIf="selectedCard"
@@ -98,14 +120,35 @@
 
   <div class="modal" *ngIf="selectedCard">
     <button class="close-btn" (click)="closeModal()">×</button>
-    <h2>{{ selectedCard.title }}</h2>
-    <p>Tipo: {{ selectedCard.type }}</p>
-    <p>Descuento: {{ selectedCard.discount }}</p>
-    <p>Aplica a: mensualidad</p>
-    <p>Aplica a los servicios:</p>
+
+    <h2>{{ selectedCard.nombre }}</h2>
+    <p><strong>Id de la Promoción:</strong> {{ selectedCard.idPromocion }}</p>
+    <p><strong>Descripción:</strong> {{ selectedCard.descripcion }}</p>
+    <p><strong>Tipo de descuento:</strong> {{ selectedCard.tipoDescuento }}</p>
+    <p>
+      <strong>Valor del descuento:</strong>
+      {{
+        selectedCard.tipoDescuento === "PORCENTAJE"
+          ? selectedCard.valorDescuento * 100 + "%"
+          : selectedCard.valorDescuento
+      }}
+    </p>
+    <p><strong>Aplica a:</strong> {{ selectedCard.aplicaA }}</p>
+    <p><strong>Duración:</strong> {{ selectedCard.duracionMeses }} mes(es)</p>
+    <p>
+      <strong>Vigencia:</strong> del
+      {{ selectedCard.fechaInicio | date : "longDate" }} al
+      {{ selectedCard.fechaFin | date : "longDate" }}
+    </p>
+
+    <p><strong>Servicios incluidos:</strong></p>
     <ul>
-      <li>Internet</li>
-      <li>Telefonía</li>
+      <li *ngFor="let servicio of selectedCard.servicios">
+        <strong>{{ servicio.nombre }}</strong> – {{ servicio.descripcion }}
+        <span *ngIf="servicio.precioBaseActual"
+          >(${{ servicio.precioBaseActual }})</span
+        >
+      </li>
     </ul>
   </div>
 </Section>
