@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { promoModel } from '../models/data-models';
 import { clientModel } from '../models/data-models';
 import { NavBarComponent } from "../nav-bar/nav-bar.component";
+import { AssignPromoToClientService } from '../services/clientToPromo/assign-promo-to-client.service';
 @Component({
   selector: 'app-assign-promotions',
   imports: [CommonModule, FormsModule, HttpClientModule, NavBarComponent],
@@ -14,8 +15,9 @@ import { NavBarComponent } from "../nav-bar/nav-bar.component";
   styleUrl: './assign-promotions.component.css'
 })
 export class AssignPromotionsComponent implements OnInit {
-   getPromosService = inject(GetPromosListService);
+  getPromosService = inject(GetPromosListService);
   getClientsService = inject(GetClientsListService);
+  postClientToPromo = inject(AssignPromoToClientService)
 
   // estados
   clienteSearch = '';
@@ -92,11 +94,23 @@ export class AssignPromotionsComponent implements OnInit {
           this.customerData = data;
           this.updatePromociones();
         });
+
     }
   }
 
   selectPromo(p: promoModel): void {
     this.promoSelected = this.promoSelected === p ? null : p;
+  }
+
+  assignPromo(customerId: number, promoId: number){
+    this.postClientToPromo.assignPromoToCustomer(customerId, promoId).subscribe({
+      next: (response) => {
+        console.log('Promoción asignada', response)
+      },
+      error: (error) => {
+        console.error('Error al asignar la promoción', error)
+      }
+    })
   }
 
 }
