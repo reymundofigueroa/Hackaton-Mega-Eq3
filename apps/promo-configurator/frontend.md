@@ -51,7 +51,7 @@ Una ventana dedicada a crear una nueva promoción en la cuál puedes personaliza
 - duración de la promoción una ves aplicada al cliente
 - Ubicación geográfica aplicable (se puede ajustar por Ciudad, Colonias, municipios y sucursales, totalmente personalizable)
 
-![Vista previa Crear Promo]()
+![Vista previa Crear Promo](../../Media/crear-promApp.png)
 
 - Listar promociones creadas
 Se pueden filtrar por el servicio al que aplican: Telefonía, Internet o TV Por cable ademas de desplegar un modal para ver toda la información de una promoción en especifico que incluye:
@@ -85,7 +85,7 @@ Esta es una vista dedicada a hacer el calculo de la deuda de un cliente y a hace
 
 la UX se maneja mediante la búsqueda de un cliente para después listar los servicios que tiene contratados y cual será el monto de su pago ademas de un botón que mostrara una proyección a futuro de los pagos a realizar
 
-![Vista previa calculo de deuda]()
+![Vista previa calculo de deuda](../../Media/CalculoApp.png)
 
 ## Bibliotecas y dependencias utilizadas
 
