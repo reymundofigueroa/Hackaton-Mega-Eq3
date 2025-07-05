@@ -11,19 +11,7 @@ import { RouterModule, Router } from '@angular/router';
 export class HomeComponent {
   private router = inject(Router);
 
-  goToCreatePromo() {
-    this.router.navigate(['/crear-promo']);
-  }
-
-  goToPromosList() {
-    this.router.navigate(['/lista-de-promos']);
-  }
-
-  goToAssignPromo() {
-    this.router.navigate(['/asignar-promoción']);
-  }
-
-  goToDebtCalculator() {
-    this.router.navigate(['/calculo-de-deuda']);
+  goTo(route: string){
+    this.router.navigate([route])
   }
 }
