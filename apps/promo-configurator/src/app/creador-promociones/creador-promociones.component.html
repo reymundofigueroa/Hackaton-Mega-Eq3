@@ -7,7 +7,7 @@
     </div>
 </header>
 
-<div class="contenedor">
+<div *ngIf="!dataByPromosList" class="contenedor">
     <div class="izquierda-centro">
         <div class="filas-arriba">
             <div class="col izquierda">
@@ -15,6 +15,184 @@
                     <div class="form-group">
                         <label>Nombre de promoción</label>
                         <input type="text" [(ngModel)]="nombre" />
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción del descuento</label>
+                        <textarea #autoResize [(ngModel)]="descripcionDescuento" rows="1"
+                            placeholder="Describe la promoción aquí..." (input)="ajustarAltura()"></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Tipo de descuento</label>
+                        <select [(ngModel)]="tipoDescuento">
+                            <option value="monto">Monto fijo</option>
+                            <option value="porcentaje">Porcentaje</option>
+                            <option value="gratis">Meses gratis</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group" *ngIf="tipoDescuento !== 'gratis'">
+                        <label>
+                            {{ tipoDescuento === 'porcentaje' ? 'Porcentaje de descuento (%)' : 'Monto de descuento ($)'
+                            }}
+                        </label>
+                        <input type="number" [(ngModel)]="valorDescuento" name="valorDescuento" [min]="0"
+                            [max]="tipoDescuento === 'porcentaje' ? 100 : null" required />
+                        <div class="text-danger" *ngIf="tipoDescuento === 'porcentaje' && valorDescuento > 100">
+                            El porcentaje no puede ser mayor a 100.
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="tipoDescuento === 'gratis'">
+                        <label>Meses gratis otorgados</label>
+                        <input type="number" [(ngModel)]="mesesGratis" min="1" max="12" />
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col centro">
+                <div class="card">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="aplicaMensualidad" [disabled]="aplicaInstalacion" />
+                        Aplica mensualidad
+                    </label>
+
+                    <label>
+                        <input type="checkbox" [(ngModel)]="aplicaInstalacion" [disabled]="aplicaMensualidad" />
+                        Aplica instalación
+                    </label>
+                </div>
+
+                <div class="card">
+                    <p><strong>Servicios</strong></p>
+                    <label *ngFor="let servicio of servicios">
+                        <input type="checkbox" [checked]="servicioSeleccionado === obtenerNombreCorto(servicio.nombre)"
+                            (change)="seleccionarServicio(obtenerNombreCorto(servicio.nombre))" />
+                        {{ obtenerNombreCorto(servicio.nombre) }}
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="fila-fechas">
+            <div class="card-horizontal">
+                <div class="form-group">
+                    <label>Fecha inicio</label>
+                    <input type="date" [(ngModel)]="fechaInicio" />
+                </div>
+                <div class="form-group">
+                    <label>Fecha fin</label>
+                    <input type="date" [(ngModel)]="fechaFin" />
+                </div>
+                <div class="form-group">
+                    <label>Duración (meses)</label>
+                    <select [(ngModel)]="duracionSeleccionada" [disabled]="tipoDescuento === 'gratis'">
+                        <option *ngFor="let n of duracionMeses" [value]="n">{{ n }} mes(es)</option>
+                    </select>
+
+
+                </div>
+            </div>
+            <div class="guardar-boton">
+                <button class="boton" (click)="guardarPromocion()" [disabled]="esFormularioInvalido()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col derecha">
+        <div class="card-lista ubicacion-card">
+            <h3>Ubicación</h3>
+            <div *ngIf="estadoSeleccionado" class="alcance-seleccionado">
+                <small><strong>Alcance seleccionado:</strong>
+                    {{ estadoSeleccionado.nombre }}
+                    <span *ngIf="municipioSeleccionado"> > {{ municipioSeleccionado.nombre }}</span>
+                    <span *ngIf="ciudadSeleccionada"> > {{ ciudadSeleccionada.nombre }}</span>
+                    <span *ngIf="coloniaSeleccionada"> > {{ coloniaSeleccionada.nombre }}</span>
+                    <span *ngIf="sucursalesFiltradas.length > 0"> ({{ sucursalesFiltradas.length }} sucursal{{
+                        sucursalesFiltradas.length > 1 ? 'es' : '' }})</span>
+                </small>
+            </div>
+            <div class="ubicacion-grid">
+                <div class="ubicacion-col">
+                    <h4>Estados</h4>
+                    <ul>
+                        <li *ngFor="let estado of estados" (click)="seleccionarEstado(estado)"
+                            [class.seleccionado]="estado === estadoSeleccionado" style="cursor: pointer;">
+                            {{ estado.nombre }}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="ubicacion-col">
+                    <h4>Municipios</h4>
+                    <ul *ngIf="estadoSeleccionado; else mensajeMunicipios">
+                        <li *ngFor="let municipio of municipiosFiltrados" (click)="seleccionarMunicipio(municipio)"
+                            [class.seleccionado]="municipio === municipioSeleccionado" style="cursor: pointer;">
+                            {{ municipio.nombre }}
+                        </li>
+                    </ul>
+                    <ng-template #mensajeMunicipios>
+                        <p style="color: #888;">Selecciona un estado</p>
+                    </ng-template>
+                </div>
+
+                <div class="ubicacion-col">
+                    <h4>Ciudades</h4>
+                    <ul *ngIf="municipioSeleccionado; else mensajeCiudades">
+                        <li *ngFor="let ciudad of ciudadesFiltradas" (click)="seleccionarCiudad(ciudad)"
+                            [class.seleccionado]="ciudad === ciudadSeleccionada" style="cursor:pointer;">
+                            {{ ciudad.nombre }}
+                        </li>
+                    </ul>
+                    <ng-template #mensajeCiudades>
+                        <p style="color: #888;">Selecciona un municipio</p>
+                    </ng-template>
+                </div>
+
+                <div class="ubicacion-col">
+                    <h4>Colonias</h4>
+                    <ul *ngIf="ciudadSeleccionada; else mensajeColonias">
+                        <li *ngFor="let colonia of coloniasFiltradas" (click)="seleccionarColonia(colonia)"
+                            [class.seleccionado]="colonia === coloniaSeleccionada" style="cursor:pointer;">
+                            {{ colonia.nombre }}
+                        </li>
+                    </ul>
+                    <ng-template #mensajeColonias>
+                        <p style="color: #888;">Selecciona una ciudad</p>
+                    </ng-template>
+                </div>
+
+                <div class="ubicacion-col">
+                    <h4>Sucursales</h4>
+                    <ul *ngIf="coloniaSeleccionada; else mensajeSucursales">
+                        <li *ngFor="let sucursal of sucursalesFiltradas">
+                            {{ sucursal.nombre }}
+                        </li>
+                    </ul>
+                    <ng-template #mensajeSucursales>
+                        <p style="color: #888;">Selecciona una colonia</p>
+                    </ng-template>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="dataByPromosList" class="contenedor">
+    <div class="izquierda-centro">
+        <div class="filas-arriba">
+            <div class="col izquierda">
+                <div class="card">
+                    <div class="form-group">
+                        <label>Nombre de promoción</label>
+                        <input type="text" [(ngModel)]="nombre"  />
                     </div>
                     <div class="form-group">
                         <label>Descripción del descuento</label>

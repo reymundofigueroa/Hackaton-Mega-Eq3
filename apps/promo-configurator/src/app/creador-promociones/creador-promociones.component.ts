@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { UbicacionService, Estado, Municipio, Ciudad, Colonia, Sucursal } from '../services/location/ubicacion.service';
+import { ComunicationpromosListToCreateService } from '../services/comunicationPromoslist-create/comunicationpromos-list-to-create.service';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import { promoModel } from '../models/data-models';
 @Component({
   selector: 'app-creador-promociones',
   standalone: true,
@@ -12,6 +14,8 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
   styleUrls: ['./creador-promociones.component.css']
 })
 export class CreadorPromocionesComponent implements OnInit {
+  dataByPromosList: promoModel = {} as promoModel
+
   // Campos del formulario
   nombre: string = '';
   descripcionDescuento: string = '';
@@ -50,10 +54,45 @@ export class CreadorPromocionesComponent implements OnInit {
 
   constructor(
     private ubicacionService: UbicacionService,
-    private http: HttpClient
+    private http: HttpClient,
+    private communication: ComunicationpromosListToCreateService
   ) { }
 
   ngOnInit(): void {
+    // guardamos la data de la promo a editar
+    this.communication.message$.subscribe(m => this.dataByPromosList = m)
+    console.log('data desde promosList', this.dataByPromosList)
+
+    if(this.dataByPromosList){
+      this.nombre = this.dataByPromosList.nombre;
+      this.descripcionDescuento = this.dataByPromosList.descripcion;
+      this.fechaInicio = this.dataByPromosList.fechaInicio;
+      this.fechaFin = this.dataByPromosList.fechaFin;
+
+      if(this.dataByPromosList.tipoDescuento === 'PORCENTAJE'){
+        this.tipoDescuento = 'porcentaje'
+        this.valorDescuento = this.dataByPromosList.valorDescuento;
+        this.duracionSeleccionada = this.dataByPromosList.duracionMeses;
+
+      } else if(this.dataByPromosList.tipoDescuento === 'MONTO_FIJO'){
+        this.tipoDescuento = 'monto'
+        this.valorDescuento = this.dataByPromosList.valorDescuento;
+        this.duracionSeleccionada = this.dataByPromosList.duracionMeses;
+
+      }
+      else if(this.dataByPromosList.tipoDescuento === 'MESES_GRATIS'){
+        this.tipoDescuento = 'gratis'
+        this.mesesGratis = this.dataByPromosList.duracionMeses
+        this.duracionSeleccionada = 0
+      }
+
+
+
+      this.aplicaMensualidad = false;
+      this.aplicaInstalacion = false;
+      this.servicioSeleccionado = this.dataByPromosList.servicios[0].nombre;
+    }
+
     this.ubicacionService.getUbicacionCompleta().subscribe({
       next: (data) => {
         this.infoUbicacionCompleta = data;
@@ -200,7 +239,7 @@ export class CreadorPromocionesComponent implements OnInit {
         const nombreCorto = this.obtenerNombreCorto(s.nombre);
         return nombreCorto === this.servicioSeleccionado;
       });
-      
+
       if (servicioEncontrado) {
         servicioId = servicioEncontrado.idServicio;
       } else {
@@ -297,7 +336,7 @@ export class CreadorPromocionesComponent implements OnInit {
           const respuesta = res as any;
           const mensajeExito = `
             ✅ Promoción guardada exitosamente!
-            
+
             📋 Detalles:
             • Nombre: ${this.nombre}
             • Servicio: ${this.servicioSeleccionado} (ID: ${servicioEncontrado?.idServicio || 'N/A'})
@@ -306,7 +345,7 @@ export class CreadorPromocionesComponent implements OnInit {
             • Fecha fin: ${this.fechaFin}
             • Servicios asociados: ${respuesta?.ServiciosAsociados || 0}
             • Alcances creados: ${respuesta?.AlcancesCreados || 0}
-            
+
             🔗 ID de promoción: ${respuesta?.IdPromocion || 'N/A'}
           `;
 
@@ -329,12 +368,12 @@ export class CreadorPromocionesComponent implements OnInit {
           // Mostrar mensaje de error
           const mensajeError = `
             Error al guardar la promoción (Código: ${err.status})
-            
+
             Detalles del error:
             • Código: ${err.status || 'N/A'}
             • Mensaje: ${err.message || 'Error desconocido'}
             • Respuesta: ${err.error ? JSON.stringify(err.error) : 'N/A'}
-            
+
             💡 Verifica:
             • Que los datos enviados sean válidos
             • Que las fechas estén en formato correcto (YYYY-MM-DD)
@@ -373,7 +412,7 @@ export class CreadorPromocionesComponent implements OnInit {
     const nombreNormalizado = nombreCompleto.toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, ''); // Remover acentos
-    
+
     if (nombreNormalizado.includes('internet')) {
       return 'Internet';
     } else if (nombreNormalizado.includes('tv') || nombreNormalizado.includes('television')) {

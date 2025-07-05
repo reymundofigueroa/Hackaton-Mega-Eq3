@@ -139,6 +139,22 @@ header .title-container {
   right: 1.5rem;
   background: transparent;
   border: none;
-  font-size: 2rem;
+  font-size: 2.8rem;
   cursor: pointer;
+}
+
+.editBtn-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.6rem;
+}
+
+.editBtn-container button{
+  width: 20%;
+  height: 4rem;
+  background-color: #005BAC;
+  color: aliceblue;
+  backdrop-filter: blur(4px);
+  border-radius: 90px;
+  border: none;
 }

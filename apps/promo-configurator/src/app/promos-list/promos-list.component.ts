@@ -1,14 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { GetPromosListService } from '../services/promosList/get-promos-list.service';
+import { ComunicationpromosListToCreateService } from '../services/comunicationPromoslist-create/comunicationpromos-list-to-create.service';
 import { promoModel } from '../models/data-models';
 import { NavBarComponent } from "../nav-bar/nav-bar.component";
 
 @Component({
   selector: 'app-promos-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, NavBarComponent],
+  imports: [CommonModule, RouterModule, HttpClientModule, NavBarComponent],
   templateUrl: './promos-list.component.html',
   styleUrl: './promos-list.component.css'
 })
@@ -16,6 +18,8 @@ export class PromosListComponent implements OnInit {
   selectedCard: promoModel | null = null;
 
   httpService = inject(GetPromosListService);
+  communication = inject(ComunicationpromosListToCreateService)
+  router = inject(Router)
 
   cards: promoModel[] = [];
   internetPromos: promoModel[] = [];
@@ -30,11 +34,6 @@ export class PromosListComponent implements OnInit {
     console.log('Promociones recibidas:', response);
     this.cards = response;
 
-    // Debug: Verificar servicios de cada promoción
-    response.forEach(promo => {
-      console.log(`Promoción ${promo.idPromocion}: ${promo.nombre} - Servicios:`, promo.servicios);
-    });
-
     this.internetPromos = response.filter(promo =>
       promo.servicios && promo.servicios.some(s => s.idServicio === 1)
     );
@@ -44,10 +43,6 @@ export class PromosListComponent implements OnInit {
     this.tvPromos = response.filter(promo =>
       promo.servicios && promo.servicios.some(s => s.idServicio === 3)
     );
-
-    console.log('Internet promos:', this.internetPromos.length);
-    console.log('Telefonía promos:', this.telefoniaPromos.length);
-    console.log('TV promos:', this.tvPromos.length);
   });
 }
 
@@ -59,10 +54,15 @@ export class PromosListComponent implements OnInit {
 
   openModal(card: promoModel) {
     this.selectedCard = card;
+    console.log('Card seleccionada',this.selectedCard)
   }
 
   closeModal() {
     this.selectedCard = null;
+  }
 
+  handlerToSendDataToEditPromos(promo: promoModel){
+    this.communication.sendMessage(promo)
+    this.router.navigate(['crear-promo'])
   }
 }
