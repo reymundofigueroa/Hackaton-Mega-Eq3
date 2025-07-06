@@ -17,9 +17,14 @@ export class CreadorPromocionesComponent implements OnInit {
   dataByPromosList: promoModel = {} as promoModel
 
   // Campos del formulario
+  promoId: number = null!
   nombre: string = '';
   descripcionDescuento: string = '';
+
+  fechaInicioParaInput = '';
   fechaInicio: string = '';
+
+  fechaFinParaInput = '';
   fechaFin: string = '';
   tipoDescuento: 'monto' | 'porcentaje' | 'gratis' = 'monto';
   valorDescuento: number = 0;
@@ -60,38 +65,10 @@ export class CreadorPromocionesComponent implements OnInit {
 
   ngOnInit(): void {
     // guardamos la data de la promo a editar
-    this.communication.message$.subscribe(m => this.dataByPromosList = m)
-    console.log('data desde promosList', this.dataByPromosList)
-
-    if(this.dataByPromosList){
-      this.nombre = this.dataByPromosList.nombre;
-      this.descripcionDescuento = this.dataByPromosList.descripcion;
-      this.fechaInicio = this.dataByPromosList.fechaInicio;
-      this.fechaFin = this.dataByPromosList.fechaFin;
-
-      if(this.dataByPromosList.tipoDescuento === 'PORCENTAJE'){
-        this.tipoDescuento = 'porcentaje'
-        this.valorDescuento = this.dataByPromosList.valorDescuento;
-        this.duracionSeleccionada = this.dataByPromosList.duracionMeses;
-
-      } else if(this.dataByPromosList.tipoDescuento === 'MONTO_FIJO'){
-        this.tipoDescuento = 'monto'
-        this.valorDescuento = this.dataByPromosList.valorDescuento;
-        this.duracionSeleccionada = this.dataByPromosList.duracionMeses;
-
-      }
-      else if(this.dataByPromosList.tipoDescuento === 'MESES_GRATIS'){
-        this.tipoDescuento = 'gratis'
-        this.mesesGratis = this.dataByPromosList.duracionMeses
-        this.duracionSeleccionada = 0
-      }
+    this.getDataByPromosList()
+    this.setDataByPromosList()
 
 
-
-      this.aplicaMensualidad = false;
-      this.aplicaInstalacion = false;
-      this.servicioSeleccionado = this.dataByPromosList.servicios[0].nombre;
-    }
 
     this.ubicacionService.getUbicacionCompleta().subscribe({
       next: (data) => {
@@ -150,6 +127,61 @@ export class CreadorPromocionesComponent implements OnInit {
       error: (err) => console.error('Error cargando servicios:', err)
     });
   }
+
+  getDataByPromosList() {
+    return this.communication.message$.subscribe(m => this.dataByPromosList = m)
+  }
+
+  areThereDataByPromosList(){
+    return Object.keys(this.dataByPromosList).length !== 0
+  }
+
+  setDataByPromosList() {
+    if (this.areThereDataByPromosList()) {
+
+      console.log('antes de asignar variables⭐⭐', this.dataByPromosList)
+
+      this.promoId = this.dataByPromosList.idPromocion
+
+      this.nombre = this.dataByPromosList.nombre;
+      this.descripcionDescuento = this.dataByPromosList.descripcion;
+
+      this.fechaInicioParaInput = this.dataByPromosList.fechaInicio.split('T')[0]
+      this.fechaInicio = this.fechaInicioParaInput;
+
+      this.fechaFinParaInput = this.dataByPromosList.fechaFin.split('T')[0]
+      this.fechaFin = this.fechaFinParaInput
+
+      if (this.dataByPromosList.tipoDescuento === 'PORCENTAJE') {
+        this.tipoDescuento = 'porcentaje'
+        this.valorDescuento = this.dataByPromosList.valorDescuento;
+        this.duracionSeleccionada = this.dataByPromosList.duracionMeses;
+
+      } else if (this.dataByPromosList.tipoDescuento === 'MONTO_FIJO') {
+        this.tipoDescuento = 'monto'
+        this.valorDescuento = this.dataByPromosList.valorDescuento;
+        this.duracionSeleccionada = this.dataByPromosList.duracionMeses;
+
+      }
+      else if (this.dataByPromosList.tipoDescuento === 'MESES_GRATIS') {
+        this.tipoDescuento = 'gratis'
+        this.mesesGratis = this.dataByPromosList.duracionMeses
+        this.duracionSeleccionada = 0
+      }
+
+      if (this.dataByPromosList.aplicaA === 'MENSUALIDAD') {
+        this.aplicaMensualidad = true;
+        this.aplicaInstalacion = false;
+      } else if (this.dataByPromosList.aplicaA === 'INSTALACION') {
+        this.aplicaMensualidad = false;
+        this.aplicaInstalacion = true;
+      } else {
+        console.log('La promoción no aplica a ningún concepto valido')
+      }
+      this.seleccionarServicio(this.obtenerNombreCorto(this.dataByPromosList.servicios[0].nombre))
+    }
+  }
+
 
   seleccionarEstado(estado: Estado) {
     this.estadoSeleccionado = estado;
