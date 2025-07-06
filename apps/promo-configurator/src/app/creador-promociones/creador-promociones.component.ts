@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -13,7 +13,7 @@ import { promoModel } from '../models/data-models';
   templateUrl: './creador-promociones.component.html',
   styleUrls: ['./creador-promociones.component.css']
 })
-export class CreadorPromocionesComponent implements OnInit {
+export class CreadorPromocionesComponent implements OnInit, OnDestroy {
   dataByPromosList: promoModel = {} as promoModel
 
   // Campos del formulario
@@ -128,6 +128,10 @@ export class CreadorPromocionesComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.clearDataByPromosList()
+  }
+
   getDataByPromosList() {
     return this.communication.message$.subscribe(m => this.dataByPromosList = m)
   }
@@ -182,6 +186,9 @@ export class CreadorPromocionesComponent implements OnInit {
     }
   }
 
+  clearDataByPromosList(){
+    this.communication.clearMessage()
+  }
 
   seleccionarEstado(estado: Estado) {
     this.estadoSeleccionado = estado;

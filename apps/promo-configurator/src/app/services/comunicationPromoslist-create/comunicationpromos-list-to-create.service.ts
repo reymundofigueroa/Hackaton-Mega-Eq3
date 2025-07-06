@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { promoModel } from '../../models/data-models';
 
 @Injectable({
@@ -11,5 +11,9 @@ export class ComunicationpromosListToCreateService {
 
   sendMessage(message: promoModel){
     this.messageSubject.next(message)
+  }
+
+  clearMessage(){
+     this.messageSubject.next({} as promoModel);
   }
 }
