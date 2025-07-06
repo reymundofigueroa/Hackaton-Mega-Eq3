@@ -85,7 +85,13 @@ body {
 }
 
 /* Botón */
+.buttons{
+  display: flex;
+  justify-content: center;
+}
+
 .guardar-boton {
+  margin: 0 2rem;
     text-align: center;
     margin-top: 2rem;
 }
@@ -298,9 +304,9 @@ textarea:focus {
 header {
     width: 100%;
     height: 10rem;
-  
+
   }
-  
+
   header .title-container {
     display: flex;
     justify-content: center;
@@ -313,9 +319,9 @@ header {
   header {
     width: 100%;
     height: 10rem;
-  
+
   }
-  
+
   header .title-container {
     display: flex;
     justify-content: center;

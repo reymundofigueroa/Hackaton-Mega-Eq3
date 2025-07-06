@@ -188,6 +188,23 @@ export class CreadorPromocionesComponent implements OnInit, OnDestroy {
 
   clearDataByPromosList(){
     this.communication.clearMessage()
+
+    this.promoId = null!;
+    this.nombre = '';
+    this.descripcionDescuento = '';
+
+    this.fechaInicioParaInput = '';
+    this.fechaInicio = '';
+
+    this.fechaFinParaInput = '';
+    this.fechaFin = '';
+    this.tipoDescuento = 'monto';
+    this.valorDescuento = 0;
+    this.mesesGratis = 1;
+    this.duracionSeleccionada = 1;
+    this.aplicaMensualidad = false;
+    this.aplicaInstalacion = false;
+    this.servicioSeleccionado = null;
   }
 
   seleccionarEstado(estado: Estado) {
